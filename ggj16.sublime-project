@@ -1,0 +1,10 @@
+{
+	"folders":
+	[
+		{
+			"path": "Assets/Scripts/",
+			"file_exclude_patterns": ["*.meta", "*.mat", "*.scene"],
+			"folder_exclude_patterns": ["*iTween*"]
+		}
+	]
+}
