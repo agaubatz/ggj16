@@ -4,8 +4,7 @@ using System.Collections;
 public class FollowCamera : MonoBehaviour {
 	public Witch witch;
 	public Umbrella umbrella;
-	//public const float dampTime = 0.15f;
-	//private Vector3 velocity = Vector3.zero;
+	public const float CAMERASPEED = 1f;
 
 	// Use this for initialization
 	void Start () {
@@ -14,6 +13,6 @@ public class FollowCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = new Vector3(transform.position.x + 1f*Time.deltaTime, transform.position.y, transform.position.z);
+		transform.position = new Vector3(transform.position.x + CAMERASPEED*Time.deltaTime, transform.position.y, transform.position.z);
 	}
 }

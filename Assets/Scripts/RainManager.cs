@@ -25,7 +25,7 @@ public class RainManager : MonoBehaviour {
 		}
 
 		if (numCollided > 0) {
-			Debug.Log(numCollided/total);
+			//Debug.Log(numCollided/total);
 		}
 	}
 }
