@@ -13,7 +13,7 @@ public class RainManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Bounds witchBounds = witch.GetComponent<SpriteRenderer>().bounds;
+		Bounds witchBounds = witch.GetComponent<BoxCollider2D>().bounds;
 		int numCollided = 0;
 		float total = 0;
 		for(float x = witchBounds.min.x; x <= witchBounds.max.x; x += witchBounds.extents.x/NUMRAINDROPS) {

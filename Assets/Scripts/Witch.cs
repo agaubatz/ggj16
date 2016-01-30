@@ -10,9 +10,11 @@ public class Witch : MonoBehaviour {
 	private float oldSpeed = FollowCamera.CAMERASPEED;
 	private const float DAMP = 1f;
 
+	private Animator animator;
+
 	// Use this for initialization
 	void Start () {
-		
+		animator = GetComponentInChildren<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -35,6 +37,9 @@ public class Witch : MonoBehaviour {
 		if (timeSinceUpdate < DAMP) {
 			mySpeed = oldSpeed + (speed-oldSpeed)*(float)Easing.QuadEaseInOut(timeSinceUpdate, 0, 1, DAMP);
 		}
+
+		animator.speed = Mathf.Abs(mySpeed);
+
 		transform.localPosition = new Vector3(transform.localPosition.x + mySpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 	}
 }
