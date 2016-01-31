@@ -55,4 +55,8 @@ public class WitchManager : MonoBehaviour {
 		witches.Add(w);
 		return w;
 	}
+
+	public void KillWitch(Witch witch) {
+		witches.Remove(witch);
+	}
 }

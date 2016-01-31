@@ -214,46 +214,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 424582, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.1974365
-      objectReference: {fileID: 0}
-    - target: {fileID: 424582, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: -0.9803157
-      objectReference: {fileID: 0}
-    - target: {fileID: 429854, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.13333842
-      objectReference: {fileID: 0}
-    - target: {fileID: 429854, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.99107057
-      objectReference: {fileID: 0}
-    - target: {fileID: 465114, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.06748558
-      objectReference: {fileID: 0}
-    - target: {fileID: 465114, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.9977203
-      objectReference: {fileID: 0}
-    - target: {fileID: 443408, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.0045674713
-      objectReference: {fileID: 0}
-    - target: {fileID: 443408, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.9999896
-      objectReference: {fileID: 0}
-    - target: {fileID: 402100, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.32428214
-      objectReference: {fileID: 0}
-    - target: {fileID: 402100, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.9459604
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
   m_IsPrefabParent: 0

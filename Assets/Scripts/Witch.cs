@@ -2,7 +2,7 @@
 using System.Collections;
 
 public enum WitchState {
-	Offscreen, Spellcasting, Walking, Damaged
+	Offscreen, Spellcasting, Walking, Damaged, Melted
 }
 
 public class Witch : MonoBehaviour {
@@ -24,6 +24,8 @@ public class Witch : MonoBehaviour {
 		}
 	}
 
+	public float health = 5f;
+
 	private Animator animator;
 
 	// Use this for initialization
@@ -33,6 +35,9 @@ public class Witch : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (State == WitchState.Melted)
+			return;
+
 		timeSinceUpdate += Time.deltaTime;
 		if (timeSinceUpdate >= UPDATEEVERY) {
 			timeSinceUpdate = 0;
@@ -69,6 +74,20 @@ public class Witch : MonoBehaviour {
 			oldSpeed = speed;
 			speed = RandomFromDistribution.RandomNormalDistribution (1.2f, SPEEDSTDEV);
 			animator.SetFloat ("speed", speed);
+		}
+	}
+
+	public void DealDamage(float damage) {
+		if (state == WitchState.Melted)
+			return;
+
+		health -= damage;
+
+		if (health <= 0) {
+			State = WitchState.Melted;
+			animator.SetBool("Die", true);
+
+			//WitchManager.instance.KillWitch(this);
 		}
 	}
 }

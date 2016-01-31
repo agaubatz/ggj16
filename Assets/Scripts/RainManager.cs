@@ -33,6 +33,7 @@ public class RainManager : MonoBehaviour {
 
 			if (damage > DAMAGETHRESHOLD) {
 				witch.State = WitchState.Damaged;
+				witch.DealDamage(damage * Time.deltaTime);
 			}
 		}
 	}
