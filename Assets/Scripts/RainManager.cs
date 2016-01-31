@@ -5,6 +5,7 @@ public class RainManager : MonoBehaviour {
 	public Witch witch;
 	const float RAINHEIGHT = 10;
 	const int NUMRAINDROPS = 100;
+	const float DAMAGETHRESHOLD = .25f;
 
 	// Use this for initialization
 	void Start () {
@@ -24,8 +25,12 @@ public class RainManager : MonoBehaviour {
 			}
 		}
 
-		if (numCollided > 0) {
-			//Debug.Log(numCollided/total);
+		float damage = numCollided / total;
+
+		if (damage > DAMAGETHRESHOLD) {
+			witch.isBeingDamaged = true;
+		} else {
+			witch.isBeingDamaged = false;
 		}
 	}
 }
