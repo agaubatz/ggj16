@@ -31,14 +31,18 @@ public class Witch : MonoBehaviour {
 				destX = transform.localPosition.x + speed * UPDATEEVERY;
 				rerollLimit--;
 			} while (Mathf.Abs(destX - cameraX) > MAXDISTFROMCAMERA && rerollLimit > 0);
+			animator.SetFloat ("speed", speed);
 		}
 
 		float mySpeed = speed;
 		if (timeSinceUpdate < DAMP) {
 			mySpeed = oldSpeed + (speed-oldSpeed)*(float)Easing.QuadEaseInOut(timeSinceUpdate, 0, 1, DAMP);
 		}
-
-		animator.speed = Mathf.Abs(mySpeed);
+		if (speed > 1) {
+			animator.speed = Mathf.Abs (mySpeed);	
+		} else {
+			animator.speed = 1;
+		}
 
 		transform.localPosition = new Vector3(transform.localPosition.x + mySpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 	}

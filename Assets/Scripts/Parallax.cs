@@ -36,7 +36,6 @@ public class Parallax : MonoBehaviour
 			while (firstChild.transform.position.x + firstChild.bounds.extents.x < leftBorder) {
 				float newX = rightBorder + 2f * firstChild.bounds.extents.x;
 				if (firstChild.sortingLayerName == "Ground") {
-					Debug.Log (firstChild.bounds.extents.x);
 					newX = firstChild.transform.position.x + 4f * firstChild.bounds.extents.x;
 				}
 				firstChild.transform.position = new Vector3 (
