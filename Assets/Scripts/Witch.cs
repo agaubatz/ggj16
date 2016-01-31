@@ -44,7 +44,7 @@ public class Witch : MonoBehaviour {
 			UpdateState();
 		}
 			
-		animator.SetBool ("DoWitchyAction", State == WitchState.Spellcasting);
+		animator.SetBool ("DoWitchyAction", State == WitchState.Spellcasting || State == WitchState.Lunging);
 
 		float mySpeed = speed;
 		if (timeSinceUpdate < DAMP && state == WitchState.Walking) {
@@ -74,12 +74,13 @@ public class Witch : MonoBehaviour {
 			State = WitchState.Spellcasting;
 			oldSpeed = speed;
 			speed = 0;
+			animator.SetFloat ("WitchyAction", 0);
 		} else if(rand < 0.3f) {
 			State = WitchState.Idle;
 			oldSpeed = speed;
 			speed = 0;
 			animator.SetFloat ("speed", 0);
-		} else if (rand < 0.9f) {
+		} else if (rand < 0.4f) {
 			State = WitchState.Walking;
 			oldSpeed = speed;
 			speed = RandomFromDistribution.RandomNormalDistribution (1.2f, .25f);
@@ -93,8 +94,8 @@ public class Witch : MonoBehaviour {
 			}
 			myShiny = (GameObject)Instantiate (ShinyPrefab, shinySummon, Quaternion.identity);
 			oldSpeed = speed;
-			speed = RandomFromDistribution.RandomNormalDistribution (4f, .25f);
-			animator.SetFloat ("speed", speed);
+			speed = 0;
+			animator.SetFloat ("WitchyAction", 1);
 		}
 	}
 
