@@ -13,12 +13,10 @@ public class Parallax : MonoBehaviour
 			for (int i = 0; i < transform.childCount; i++)
 			{
 				Transform child = transform.GetChild(i);
-				SpriteRenderer r = child.GetComponent<SpriteRenderer>();
 
-				// Only visible children
-				if (r != null)
+				foreach (SpriteRenderer renderer in child.GetComponentsInChildren<SpriteRenderer>())
 				{
-					backgroundPart.Add(r);
+					backgroundPart.Add(renderer);
 				}
 			}
 	}
