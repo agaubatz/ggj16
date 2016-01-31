@@ -25,19 +25,22 @@ public class Bird : MonoBehaviour {
 		}
 
 		timeOnScreen += Time.deltaTime;
-		float progress = 0;
-		if (timeOnScreen <= 2f) {
-			progress = (float)Easing.SineEaseOut (timeOnScreen, 0, 1, 2f);
+		if (isGood) {
+			float progress = 0;
+			if (timeOnScreen <= 2f) {
+				progress = (float)Easing.SineEaseOut (timeOnScreen, 0, 1, 2f);
+			} else {
+				progress = 1f - (float)Easing.SineEaseIn (timeOnScreen - 2f, 0, 1, 2f);
+			}
+			transform.localPosition = new Vector3 (transform.localPosition.x - 5f * Time.deltaTime, startY + progress * destination, transform.localPosition.z);
 		} else {
-			progress = 1f-(float)Easing.SineEaseIn(timeOnScreen-2f, 0, 1, 2f);
+			transform.localPosition = new Vector3 (transform.localPosition.x - 30f * Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 		}
-		transform.localPosition = new Vector3(transform.localPosition.x - 5f*Time.deltaTime, startY + progress*destination, transform.localPosition.z);
 	}
 
 	public void MakeEvil() {
 		isGood = false;
-//		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-//		renderer.color = new Color(1f, 0f, 0f, 1f);
+		destination = 0;
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {

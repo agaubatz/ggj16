@@ -84,7 +84,7 @@ public class Witch : MonoBehaviour {
 			walkSpeed = 8f * (float)Easing.CubicEaseOut (updateIn, 1, 0, 0.5f);
 		}
 
-		if (updateIn <= 1f && updateIn + Time.deltaTime > 1f && State == WitchState.Spellcasting) { //Start Teleport
+		if (updateIn <= 1.5f && updateIn + Time.deltaTime > 1.5f && State == WitchState.Spellcasting) { //Start Teleport
 			CannotHit = true;
 			foreach (var child in GetComponentsInChildren<Renderer>()) {
 				child.enabled = false;
@@ -148,7 +148,6 @@ public class Witch : MonoBehaviour {
 				Destroy (myShiny);
 			}
 			myShiny = (GameObject)Instantiate (ShinyPrefab, shinySummon, Quaternion.identity);
-			//oldSpeed = speed;
 			speed = 0;
 			animator.SetBool ("DoWitchyAction", true);
 			animator.SetFloat ("WitchyAction", 1);
@@ -159,7 +158,7 @@ public class Witch : MonoBehaviour {
 			speed = 0;
 			animator.SetBool ("DoWitchyAction", true);
 			animator.SetFloat ("WitchyAction", 0);
-			return 3f; //4 Seconds
+			return 3.5f; //3.5 Seconds
 		}
 	}
 

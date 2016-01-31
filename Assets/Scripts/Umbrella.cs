@@ -34,14 +34,15 @@ public class Umbrella : MonoBehaviour {
 			}
 		}
 		Vector3 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		transform.position =  new Vector3(mouseScreenPosition.x, mouseScreenPosition.y, 0);
+
+		transform.position =  new Vector3(mouseScreenPosition.x, Mathf.Clamp(mouseScreenPosition.y, -2f, 8f), 0);
 	}
 
 	public void CollideWithBird(Bird b) {
 		if (b.isGood) {
 			state = UmbrellaState.Large;
 			powerUpDuration = 4f;
-			transform.localScale = new Vector3 (2f * oldScale.x, oldScale.y, oldScale.z);
+			transform.localScale = new Vector3 (1.5f * oldScale.x, oldScale.y, oldScale.z);
 		} else {
 			powerUpDuration = 2f;
 			state = UmbrellaState.Disabled;

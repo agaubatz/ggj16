@@ -6,8 +6,9 @@ public class BirdManager : MonoBehaviour {
 	public static BirdManager instance;
 	public GameObject GoodPrefab;
 	public GameObject BadPrefab;
+	public GameObject BadSpawner;
 	private List<Bird> birds = new List<Bird>();
-	private const float summonEvery = 2f;
+	private Dictionary<GameObject, float> badSpawns = new Dictionary<GameObject, float>();
 	private float lastSummon = 2f;
 
 	private Bounds goodBounds;
@@ -39,7 +40,7 @@ public class BirdManager : MonoBehaviour {
 
 		lastSummon -= Time.deltaTime;
 		if (lastSummon <= 0) {
-			lastSummon = RandomFromDistribution.RandomNormalDistribution(summonEvery, 0.5f);
+			lastSummon = RandomFromDistribution.RandomNormalDistribution(2f, 0.5f);
 			SummonBird();
 		}
 
@@ -53,10 +54,23 @@ public class BirdManager : MonoBehaviour {
 			birds.Remove (b);
 			Destroy (b.gameObject);
 		}
+
+		List<GameObject> destroyList = new List<GameObject> ();
+		foreach (GameObject g in new List<GameObject>(badSpawns.Keys)) {
+			badSpawns[g] -= Time.deltaTime;
+			if (badSpawns[g] <= 0) {
+				destroyList.Add (g);
+			}
+		}
+
+		foreach (GameObject g in destroyList) {
+			badSpawns.Remove(g);
+			Destroy (g);
+		}
 	}
 
 	void SummonBird() {
-		if (Random.value > 0.5f) {
+		if (Random.value > 0.9f) {
 			float x = FollowCamera.instance.ScreenRight.x + goodBounds.extents.x;
 			float y = Random.Range (-2f, 10f);
 			Vector3 summonPosition = new Vector3 (x, y, GoodPrefab.transform.position.z);
@@ -65,10 +79,12 @@ public class BirdManager : MonoBehaviour {
 		} else {
 			float x = FollowCamera.instance.ScreenRight.x + badBounds.extents.x;
 			float y = Random.Range (-2f, 10f);
-			Vector3 summonPosition = new Vector3 (x, y, BadPrefab.transform.position.z);
+			Vector3 summonPosition = new Vector3 (x + 30f * 1.5f, y, BadPrefab.transform.position.z); //Summon 15f*0.5f back for the animation to finish
 			Bird b = ((GameObject)Instantiate (BadPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
 			birds.Add (b);
 			b.MakeEvil ();
+			Vector3 badSpawnSummon = new Vector3 (x, y, BadSpawner.transform.position.z);
+			badSpawns.Add ((GameObject)Instantiate (BadSpawner, badSpawnSummon, Quaternion.identity), 1.5f);
 		}
 	}
 }
