@@ -13,7 +13,7 @@ public class Witch : MonoBehaviour {
 	private float timeSinceUpdate = UPDATEEVERY; //So it updates frame 1
 	private float speed = 1f;
 	private float oldSpeed = 1f;
-	private WitchState state = WitchState.Walking;
+	private WitchState state = WitchState.Offscreen;
 	public WitchState State {
 		set {
 			//Debug.Log(string.Format("State from {0} to {1}", state, value));
@@ -39,7 +39,7 @@ public class Witch : MonoBehaviour {
 			return;
 
 		timeSinceUpdate += Time.deltaTime;
-		if (timeSinceUpdate >= UPDATEEVERY) {
+		if (timeSinceUpdate >= UPDATEEVERY || State == WitchState.Damaged) {
 			timeSinceUpdate = 0;
 			UpdateState();
 		}
@@ -55,8 +55,6 @@ public class Witch : MonoBehaviour {
 		}
 
 		transform.localPosition = new Vector3(transform.localPosition.x + mySpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
-
-		animator.SetBool("Hit", state == WitchState.Damaged);
 	}
 
 	void UpdateState() {
@@ -80,12 +78,18 @@ public class Witch : MonoBehaviour {
 	public void DealDamage(float damage) {
 		if (state == WitchState.Melted)
 			return;
-
 		health -= damage;
 
 		if (health <= 0) {
-			State = WitchState.Melted;
-			animator.SetBool("Die", true);
+			state = WitchState.Melted;
+			animator.SetBool ("Die", true);
+		} else {
+			state = WitchState.Damaged;
+			animator.SetBool("Hit", true);
 		}
+	}
+
+	public void CoveredByUmbrella() {
+		animator.SetBool("Hit", false);
 	}
 }

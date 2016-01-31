@@ -53,14 +53,7 @@ public class WitchManager : MonoBehaviour {
 				}
 				continue;
 			}
-			var dist = (w.transform.position - Camera.main.transform.position).z;
-			float leftBorder = Camera.main.ViewportToWorldPoint (new Vector3 (0, 0, dist)).x;
-			float rightBorder = Camera.main.ViewportToWorldPoint (new Vector3 (1, 0, dist)).x;
-			if (w.transform.position.x + WitchBounds.extents.x < leftBorder || w.transform.position.x + WitchBounds.extents.x > rightBorder) {
-				w.State = WitchState.Offscreen;
-			}
 		}
-
 
 		lastSummon += Time.deltaTime;
 		if (lastSummon >= summonEvery) {
