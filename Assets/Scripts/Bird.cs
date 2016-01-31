@@ -36,8 +36,8 @@ public class Bird : MonoBehaviour {
 
 	public void MakeEvil() {
 		isGood = false;
-		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-		renderer.color = new Color(1f, 0f, 0f, 1f);
+//		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+//		renderer.color = new Color(1f, 0f, 0f, 1f);
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {

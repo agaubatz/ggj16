@@ -9,8 +9,15 @@ public class BirdManager : MonoBehaviour {
 	private const float summonEvery = 2f;
 	private float lastSummon = 2f;
 
+	private Bounds prefabBounds;
+
 	void Awake() {
 		instance = this;
+
+		prefabBounds = new Bounds();
+		foreach (var child in BirdPrefab.GetComponentsInChildren<SpriteRenderer>()) {
+			prefabBounds.Encapsulate (child.bounds);
+		}
 	}
 
 	// Use this for initialization
@@ -32,7 +39,7 @@ public class BirdManager : MonoBehaviour {
 
 		List<Bird> deadBirds = new List<Bird> ();
 		foreach (Bird b in birds) {
-			if (b.toDestroy || (FollowCamera.instance.ScreenLeft.x > b.transform.position.x + BirdPrefab.GetComponent<SpriteRenderer> ().bounds.extents.x)) {
+			if (b.toDestroy || (FollowCamera.instance.ScreenLeft.x > b.transform.position.x + prefabBounds.extents.x)) {
 				deadBirds.Add (b);
 			}
 		}
@@ -43,7 +50,9 @@ public class BirdManager : MonoBehaviour {
 	}
 
 	void SummonBird() {
-		float x = FollowCamera.instance.ScreenRight.x + BirdPrefab.GetComponent<SpriteRenderer> ().bounds.extents.x;
+
+
+		float x = FollowCamera.instance.ScreenRight.x + prefabBounds.extents.x;
 		float y = Random.Range(-2f, 10f);
 		Vector3 summonPosition = new Vector3(x, y, BirdPrefab.transform.position.z);
 		Bird b = ((GameObject)Instantiate (BirdPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
