@@ -22,11 +22,10 @@ public class WitchManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Witch w = Instantiate (WitchPrefab).GetComponent<Witch> ();
-		witches.Add(w);
+		Witch w = SummonWitch(-4);
 		foreach (var child in w.GetComponentsInChildren<Renderer>()) {
 			WitchBounds.Encapsulate (child.bounds);
-			}
+		}
 	}
 	
 	// Update is called once per frame
@@ -44,10 +43,16 @@ public class WitchManager : MonoBehaviour {
 		lastSummon += Time.deltaTime;
 		if (lastSummon >= summonEvery) {
 			lastSummon = 0f;
-			Vector3 summonPosition = WitchPrefab.transform.position;
-			summonPosition.x = FollowCamera.instance.JustOffscreen.x + WitchBounds.extents.x;
-			summonPosition.y = -3.14f;
-			witches.Add(((GameObject)Instantiate(WitchPrefab, summonPosition, Quaternion.identity)).GetComponent<Witch>());
+			SummonWitch(FollowCamera.instance.JustOffscreen.x + WitchBounds.extents.x);
 		}
+	}
+
+	Witch SummonWitch(float xPos) {
+		Vector3 summonPosition = WitchPrefab.transform.position;
+		summonPosition.x = xPos;
+		summonPosition.y = -3.14f;
+		Witch w = ((GameObject)Instantiate (WitchPrefab, summonPosition, Quaternion.identity)).GetComponent<Witch> ();
+		witches.Add(w);
+		return w;
 	}
 }
