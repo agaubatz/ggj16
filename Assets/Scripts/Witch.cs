@@ -9,6 +9,9 @@ public class Witch : MonoBehaviour {
 	public GameObject ShinyPrefab;
 	public GameObject TeleportTo;
 	public GameObject TeleportAway;
+	public AudioClip TeleportInSound;
+	public AudioClip TeleportOutSound;
+	public AudioClip ScreamSound;
 	private GameObject myShiny = null;
 	private GameObject myTeleportTo = null;
 	private GameObject myTeleportAway = null;
@@ -17,6 +20,7 @@ public class Witch : MonoBehaviour {
 	private float speed = 1f;
 	private float vulnerableCountdown = 2f;
 	private bool startInvulnerable = true;
+	private bool wasDamaged = false;
 	private WitchState state = WitchState.Offscreen;
 	public WitchState State {
 		set {
@@ -45,6 +49,7 @@ public class Witch : MonoBehaviour {
 		animator = GetComponentInChildren<Animator>();
 		myTeleportTo = (GameObject)Instantiate (TeleportTo, transform.localPosition, Quaternion.identity);
 		CannotHit = true;
+		AudioSource.PlayClipAtPoint (TeleportInSound, transform.localPosition);
 	}
 	
 	// Update is called once per frame
@@ -91,8 +96,10 @@ public class Witch : MonoBehaviour {
 			}
 			myTeleportTo = (GameObject)Instantiate (TeleportTo, new Vector3 (transform.localPosition.x - 5f, transform.localPosition.y, transform.localPosition.z), Quaternion.identity);
 			myTeleportAway = (GameObject)Instantiate (TeleportAway, transform.localPosition, Quaternion.identity);
+			AudioSource.PlayClipAtPoint (TeleportOutSound, transform.localPosition);
 		} else if (updateIn <= 0.5f && updateIn + Time.deltaTime > 0.5f && State == WitchState.Spellcasting) { //End teleport
 			transform.localPosition = new Vector3 (transform.localPosition.x - 5f, transform.localPosition.y, transform.localPosition.z);
+			AudioSource.PlayClipAtPoint (TeleportInSound, transform.localPosition);
 			foreach (var child in GetComponentsInChildren<Renderer>()) {
 				child.enabled = true;
 			}
@@ -185,12 +192,20 @@ public class Witch : MonoBehaviour {
 			state = WitchState.Melted;
 			animator.SetBool ("Die", true);
 		} else {
+			if (!wasDamaged) {
+				wasDamaged = true;
+				AudioSource.PlayClipAtPoint (ScreamSound, transform.localPosition);
+			}
 			state = WitchState.Damaged;
 			animator.SetBool("Hit", true);
 		}
+
+
 	}
 
 	public void CoveredByUmbrella() {
 		animator.SetBool("Hit", false);
+
+		wasDamaged = false;
 	}
 }

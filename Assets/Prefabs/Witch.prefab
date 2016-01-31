@@ -514,7 +514,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185648}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 7.3681617, y: 0.9584235, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 497724}
@@ -676,8 +676,10 @@ MonoBehaviour:
   ShinyPrefab: {fileID: 167138, guid: b6609b2b1b1c646179511c096ea2eb3c, type: 2}
   TeleportTo: {fileID: 160894, guid: 04690789738d741c592ce423dd456892, type: 2}
   TeleportAway: {fileID: 106944, guid: eaa9a1f23130a47829120416463a9e9e, type: 2}
+  TeleportInSound: {fileID: 8300000, guid: e5b3197207a6044e2a42344a31bfdda9, type: 3}
+  TeleportOutSound: {fileID: 8300000, guid: 46ffb859cda4f492799afbc8d407d85b, type: 3}
+  ScreamSound: {fileID: 8300000, guid: 27e33fee7ef7d42b284c48f8d2ac549f, type: 3}
   CannotHit: 0
-  health: 5
 --- !u!198 &19808784
 ParticleSystem:
   m_ObjectHideFlags: 1
