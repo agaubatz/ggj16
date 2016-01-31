@@ -11,8 +11,8 @@ public class Witch : MonoBehaviour {
 	private const float SPEEDSTDEV = 0.5f;
 	private const float DAMP = 1f;
 	private float timeSinceUpdate = UPDATEEVERY; //So it updates frame 1
-	private float speed = FollowCamera.CAMERASPEED;
-	private float oldSpeed = FollowCamera.CAMERASPEED;
+	private float speed = 1f;
+	private float oldSpeed = 1f;
 	private WitchState state = WitchState.Walking;
 	public WitchState State {
 		set {
@@ -60,22 +60,14 @@ public class Witch : MonoBehaviour {
 		}
 
 		float rand = Random.value;
-		float cameraXdest = Camera.main.transform.position.x + UPDATEEVERY * FollowCamera.CAMERASPEED;
-		if (rand < 0.2f && cameraXdest - transform.localPosition.x < MAXDISTFROMCAMERA) { //20% of idle spellcasting, unless it's going to put us off screen
+		if (rand < 0.2f) {
 			State = WitchState.Spellcasting;
 			speed = 0;
 			animator.SetFloat("speed", 0);
 		} else {
 			State = WitchState.Walking;
-			float destX = transform.localPosition.x;
-			float cameraX = Camera.main.transform.position.x + UPDATEEVERY * FollowCamera.CAMERASPEED;
 			oldSpeed = speed;
-			int rerollLimit = 10;
-			do {
-				speed = RandomFromDistribution.RandomNormalDistribution (FollowCamera.CAMERASPEED*1.2f, SPEEDSTDEV);
-				destX = transform.localPosition.x + speed * UPDATEEVERY;
-				rerollLimit--;
-			} while (Mathf.Abs(destX - cameraX) > MAXDISTFROMCAMERA && rerollLimit > 0);
+			speed = RandomFromDistribution.RandomNormalDistribution (1.2f, SPEEDSTDEV);
 			animator.SetFloat ("speed", speed);
 		}
 	}
