@@ -28,9 +28,7 @@ public class RainManager : MonoBehaviour {
 		float damage = numCollided / total;
 
 		if (damage > DAMAGETHRESHOLD) {
-			witch.isBeingDamaged = true;
-		} else {
-			witch.isBeingDamaged = false;
+			witch.State = WitchState.Damaged;
 		}
 	}
 }

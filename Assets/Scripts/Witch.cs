@@ -2,12 +2,11 @@
 using System.Collections;
 
 public enum WitchState {
-	Spellcasting, Walking
+	Spellcasting, Walking, Damaged
 }
 
 public class Witch : MonoBehaviour {
 	public ScoreManager score;
-	public bool isBeingDamaged = false;
 
 	private const float UPDATEEVERY = 2f;
 	private const float MAXDISTFROMCAMERA = 5.5f;
@@ -17,6 +16,12 @@ public class Witch : MonoBehaviour {
 	private float speed = FollowCamera.CAMERASPEED;
 	private float oldSpeed = FollowCamera.CAMERASPEED;
 	private WitchState state = WitchState.Walking;
+	public WitchState State {
+		set {
+			Debug.Log(string.Format("State from {0} to {1}", state, value));
+			state = value;
+		}
+	}
 
 	private Animator animator;
 
@@ -45,7 +50,7 @@ public class Witch : MonoBehaviour {
 
 		transform.localPosition = new Vector3(transform.localPosition.x + mySpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 
-		animator.SetBool("Hit", isBeingDamaged);
+		animator.SetBool("Hit", state == WitchState.Damaged);
 	}
 
 	void UpdateState() {
@@ -56,13 +61,11 @@ public class Witch : MonoBehaviour {
 		float rand = Random.value;
 		float cameraXdest = Camera.main.transform.position.x + UPDATEEVERY * FollowCamera.CAMERASPEED;
 		if (rand < 0.2f && cameraXdest - transform.localPosition.x < MAXDISTFROMCAMERA) { //20% of idle spellcasting, unless it's going to put us off screen
-			Debug.Log("Spellcasting");
-			state = WitchState.Spellcasting;
+			State = WitchState.Spellcasting;
 			speed = 0;
 			animator.SetFloat("speed", 0);
 		} else {
-			Debug.Log("Walking");
-			state = WitchState.Walking;
+			State = WitchState.Walking;
 			float destX = transform.localPosition.x;
 			float cameraX = Camera.main.transform.position.x + UPDATEEVERY * FollowCamera.CAMERASPEED;
 			oldSpeed = speed;
