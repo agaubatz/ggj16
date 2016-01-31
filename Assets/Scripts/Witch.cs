@@ -6,6 +6,8 @@ public enum WitchState {
 }
 
 public class Witch : MonoBehaviour {
+	public GameObject ShinyPrefab;
+	private GameObject myShiny = null;
 	private const float UPDATEEVERY = 2f;
 	private const float DAMP = 1f;
 	private float timeSinceUpdate = UPDATEEVERY; //So it updates frame 1
@@ -54,6 +56,11 @@ public class Witch : MonoBehaviour {
 			animator.speed = 1;
 		}
 
+		if (myShiny != null && State != WitchState.Lunging) {
+			Destroy (myShiny);
+			myShiny = null;
+		}
+
 		transform.localPosition = new Vector3(transform.localPosition.x + mySpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 	}
 
@@ -79,6 +86,12 @@ public class Witch : MonoBehaviour {
 			animator.SetFloat ("speed", speed);
 		} else {
 			State = WitchState.Lunging;
+			Vector3 shinySummon = transform.localPosition;
+			shinySummon = new Vector3 (shinySummon.x + 4f, shinySummon.y, shinySummon.z);
+			if (myShiny != null) {
+				Destroy (myShiny);
+			}
+			myShiny = (GameObject)Instantiate (ShinyPrefab, shinySummon, Quaternion.identity);
 			oldSpeed = speed;
 			speed = RandomFromDistribution.RandomNormalDistribution (4f, .25f);
 			animator.SetFloat ("speed", speed);
