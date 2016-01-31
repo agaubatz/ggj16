@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Witch : MonoBehaviour {
+	public ScoreManager score;
 	private const float UPDATEEVERY = 2f;
 	private const float MAXDISTFROMCAMERA = 5.5f;
 	private const float SPEEDSTDEV = 0.5f;
@@ -32,6 +33,7 @@ public class Witch : MonoBehaviour {
 				rerollLimit--;
 			} while (Mathf.Abs(destX - cameraX) > MAXDISTFROMCAMERA && rerollLimit > 0);
 			animator.SetFloat ("speed", speed);
+			score.score += 5;
 		}
 
 		float mySpeed = speed;
