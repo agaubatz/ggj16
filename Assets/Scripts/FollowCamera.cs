@@ -32,7 +32,7 @@ public class FollowCamera : MonoBehaviour {
 		Bounds AllWitchBounds = new Bounds();
 		bool notSet = true;
 		foreach (Witch w in WitchManager.instance.Witches) {
-			foreach (var child in w.GetComponentsInChildren<Renderer>()) {
+			foreach (var child in w.GetComponentsInChildren<SpriteRenderer>()) {
 				if (notSet) {
 					notSet = false;
 					AllWitchBounds = child.bounds;

@@ -27,7 +27,7 @@ public class WitchManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Witch w = SummonWitch(8);
-		foreach (var child in w.GetComponentsInChildren<Renderer>()) {
+		foreach (var child in w.GetComponentsInChildren<SpriteRenderer>()) {
 			WitchBounds.Encapsulate (child.bounds);
 		}
 	}
