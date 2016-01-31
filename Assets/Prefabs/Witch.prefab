@@ -673,7 +673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7361b50c021d645788f36eb11e04501a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShinyPrefab: {fileID: 117136, guid: cf38b7c3590094167b97c7bebc5df7dc, type: 2}
+  ShinyPrefab: {fileID: 167138, guid: b6609b2b1b1c646179511c096ea2eb3c, type: 2}
   TeleportTo: {fileID: 160894, guid: 04690789738d741c592ce423dd456892, type: 2}
   TeleportAway: {fileID: 106944, guid: eaa9a1f23130a47829120416463a9e9e, type: 2}
   CannotHit: 0
@@ -10303,7 +10303,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: ShinyPrefab
       value: 
-      objectReference: {fileID: 117136, guid: cf38b7c3590094167b97c7bebc5df7dc, type: 2}
+      objectReference: {fileID: 167138, guid: b6609b2b1b1c646179511c096ea2eb3c, type: 2}
     - target: {fileID: 0}
       propertyPath: TeplortTo
       value: 

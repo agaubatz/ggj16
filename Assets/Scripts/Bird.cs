@@ -27,7 +27,6 @@ public class Bird : MonoBehaviour {
 		} else {
 			progress = 1f-(float)Easing.SineEaseIn(timeOnScreen-2f, 0, 1, 2f);
 		}
-		Debug.Log (string.Format("{0} {1}", timeOnScreen, progress));
 		transform.localPosition = new Vector3(transform.localPosition.x - 5f*Time.deltaTime, startY + progress*destination, transform.localPosition.z);
 	}
 

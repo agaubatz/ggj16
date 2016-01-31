@@ -88,9 +88,9 @@ public class Witch : MonoBehaviour {
 		}
 
 		if (myTeleportTo != null && State != WitchState.Spellcasting) {
-			Destroy (myTeleportTo);
+			Destroy (myTeleportTo, 3f);
 			myTeleportTo = null;
-			Destroy (myTeleportAway);
+			Destroy (myTeleportAway, 3f);
 			myTeleportAway = null;
 		}
 	}
