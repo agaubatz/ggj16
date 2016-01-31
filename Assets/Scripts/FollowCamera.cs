@@ -2,14 +2,18 @@
 using System.Collections;
 
 public class FollowCamera : MonoBehaviour {
-	public Witch witch;
-	public Umbrella umbrella;
+	public static FollowCamera instance;
+
 	public const float CAMERASPEED = 1f;
 
 	public Vector3 JustOffscreen {
 		get {
 			return Camera.main.ViewportToWorldPoint (new Vector3 (1, 0, 10));
 		}
+	}
+
+	void Awake() {
+		instance = this;
 	}
 
 	// Use this for initialization

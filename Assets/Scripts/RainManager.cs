@@ -5,7 +5,6 @@ public class RainManager : MonoBehaviour {
 	const float RAINHEIGHT = 10;
 	const int NUMRAINDROPS = 100;
 	const float DAMAGETHRESHOLD = .25f;
-	public WitchManager witches;
 
 	// Use this for initialization
 	void Start () {
@@ -14,7 +13,7 @@ public class RainManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		foreach (Witch witch in witches.Witches) {
+		foreach (Witch witch in WitchManager.instance.Witches) {
 			if (witch.State == WitchState.Offscreen) {
 				continue;
 			}

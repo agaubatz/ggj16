@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class WitchManager : MonoBehaviour {
-	public FollowCamera FollowCam;
+	public static WitchManager instance;
 	public GameObject WitchPrefab;
 	private Bounds WitchBounds;
 	private List<Witch> witches = new List<Witch>();
@@ -14,6 +14,10 @@ public class WitchManager : MonoBehaviour {
 		get{
 			return witches;
 		}
+	}
+
+	void Awake() {
+		instance = this;
 	}
 
 	// Use this for initialization
@@ -41,7 +45,7 @@ public class WitchManager : MonoBehaviour {
 		if (lastSummon >= summonEvery) {
 			lastSummon = 0f;
 			Vector3 summonPosition = WitchPrefab.transform.position;
-			summonPosition.x = FollowCam.JustOffscreen.x + WitchBounds.extents.x;
+			summonPosition.x = FollowCamera.instance.JustOffscreen.x + WitchBounds.extents.x;
 			summonPosition.y = -3.14f;
 			witches.Add(((GameObject)Instantiate(WitchPrefab, summonPosition, Quaternion.identity)).GetComponent<Witch>());
 		}
