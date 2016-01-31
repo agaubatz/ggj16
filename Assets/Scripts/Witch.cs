@@ -7,7 +7,11 @@ public enum WitchState {
 
 public class Witch : MonoBehaviour {
 	public GameObject ShinyPrefab;
+	public GameObject TeleportTo;
+	public GameObject TeleportAway;
 	private GameObject myShiny = null;
+	private GameObject myTeleportTo = null;
+	private GameObject myTeleportAway = null;
 	private float updateIn = 2f;
 	private float timeSince = 0f;
 	private float speed = 1f;
@@ -66,6 +70,8 @@ public class Witch : MonoBehaviour {
 			foreach (var child in GetComponentsInChildren<Renderer>()) {
 				child.enabled = false;
 			}
+			myTeleportTo = (GameObject)Instantiate (TeleportTo, new Vector3 (transform.localPosition.x - 5f, transform.localPosition.y, transform.localPosition.z), Quaternion.identity);
+			myTeleportAway = (GameObject)Instantiate (TeleportAway, transform.localPosition, Quaternion.identity);
 		} else if (updateIn <= 0.5f && updateIn + Time.deltaTime > 0.5f && State == WitchState.Spellcasting) { //End teleport
 			transform.localPosition = new Vector3 (transform.localPosition.x - 5f, transform.localPosition.y, transform.localPosition.z);
 			CannotHit = false;
@@ -79,6 +85,13 @@ public class Witch : MonoBehaviour {
 		if (myShiny != null && State != WitchState.Lunging) {
 			Destroy (myShiny);
 			myShiny = null;
+		}
+
+		if (myTeleportTo != null && State != WitchState.Spellcasting) {
+			Destroy (myTeleportTo);
+			myTeleportTo = null;
+			Destroy (myTeleportAway);
+			myTeleportAway = null;
 		}
 	}
 

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class WitchManager : MonoBehaviour {
 	public static WitchManager instance;
 	public GameObject WitchPrefab;
-	public GameObject ShinyPrefab;
 	private Bounds WitchBounds;
 	private List<Witch> witches = new List<Witch>();
 	private Dictionary<Witch, float> deadWitches = new Dictionary<Witch, float>();
@@ -66,7 +65,6 @@ public class WitchManager : MonoBehaviour {
 		summonPosition.x = xPos;
 		summonPosition.y = summonY;
 		Witch w = ((GameObject)Instantiate (WitchPrefab, summonPosition, Quaternion.identity)).GetComponent<Witch> ();
-		w.ShinyPrefab = ShinyPrefab;
 		witches.Add(w);
 		return w;
 	}
