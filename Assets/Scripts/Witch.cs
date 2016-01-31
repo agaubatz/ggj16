@@ -8,11 +8,9 @@ public enum WitchState {
 public class Witch : MonoBehaviour {
 	public GameObject ShinyPrefab;
 	private GameObject myShiny = null;
-	private const float UPDATEEVERY = 2f;
-	private const float DAMP = 1f;
-	private float timeSinceUpdate = UPDATEEVERY; //So it updates frame 1
+	private float updateIn = 2f;
+	private float timeSince = 0f;
 	private float speed = 1f;
-	private float oldSpeed = 1f;
 	private WitchState state = WitchState.Offscreen;
 	public WitchState State {
 		set {
@@ -38,14 +36,20 @@ public class Witch : MonoBehaviour {
 		if (State == WitchState.Melted)
 			return;
 
-		timeSinceUpdate += Time.deltaTime;
-		if (timeSinceUpdate >= UPDATEEVERY || State == WitchState.Damaged) {
-			timeSinceUpdate = 0;
-			UpdateState();
+		updateIn -= Time.deltaTime;
+		timeSince += Time.deltaTime;
+		if (updateIn <= 0 || State == WitchState.Damaged) {
+			updateIn = UpdateState ();
+			timeSince = 0;
+		}
+
+		if(updateIn <= 0.5f && (State == WitchState.Lunging || State == WitchState.Spellcasting)) { //End the animation!
+			animator.SetBool ("DoWitchyAction", false);
 		}
 			
-		animator.SetBool ("DoWitchyAction", State == WitchState.Spellcasting || State == WitchState.Lunging);
+		//animator.SetBool ("DoWitchyAction", State == WitchState.Spellcasting || State == WitchState.Lunging);
 
+		/*
 		float mySpeed = speed;
 		if (timeSinceUpdate < DAMP && state == WitchState.Walking) {
 			mySpeed = oldSpeed + (speed-oldSpeed)*(float)Easing.QuadEaseOut(timeSinceUpdate, 0, 1, DAMP);
@@ -55,47 +59,78 @@ public class Witch : MonoBehaviour {
 		} else {
 			animator.speed = 1;
 		}
+		*/
+		float walkSpeed = speed;
+		if (timeSince <= 0.5f && State == WitchState.Walking) { //Ease into walking speed
+			walkSpeed = speed * (float)Easing.QuadEaseInOut (timeSince, 0, 1, 0.5f);
+		}
+		if (timeSince >= 1f && timeSince <= 1.5f && State == WitchState.Lunging) { //Speed up lunge
+			walkSpeed = 4f * (float)Easing.CubicEaseIn (timeSince-1f, 0, 1, 0.5f);
+		} else if (timeSince > 1f && State == WitchState.Lunging) {
+			walkSpeed = 4f;
+		}
+		if (updateIn <= 0.5f && State == WitchState.Lunging) { //Slow down at the end of the lunge
+			walkSpeed = 4f * (float)Easing.CubicEaseOut (updateIn, 1, 0, 0.5f);
+		}
+
+		if (updateIn <= 1f && updateIn + Time.deltaTime > 1f && State == WitchState.Spellcasting) { //Teleport
+			transform.localPosition = new Vector3 (transform.localPosition.x - 3f, transform.localPosition.y, transform.localPosition.z);
+		}
+
+		transform.localPosition = new Vector3(transform.localPosition.x + walkSpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 
 		if (myShiny != null && State != WitchState.Lunging) {
 			Destroy (myShiny);
 			myShiny = null;
 		}
-
-		transform.localPosition = new Vector3(transform.localPosition.x + mySpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 	}
 
-	void UpdateState() {
+	float UpdateState() {
 		if (state == WitchState.Spellcasting) { //You successfully cast the spell!
 			ScoreManager.instance.score += 5;
+		} else if (state == WitchState.Lunging) { //You successfully got the shiny!
+			ScoreManager.instance.score += 10;
 		}
 
+		animator.SetBool ("Walk", false);
+		animator.SetBool ("DoWitchyAction", false);
+		animator.SetBool ("Idle", false);
+
 		float rand = Random.value;
-		if (rand < 0.2f) {
-			State = WitchState.Spellcasting;
-			oldSpeed = speed;
-			speed = 0;
-			animator.SetFloat ("WitchyAction", 0);
-		} else if(rand < 0.3f) {
-			State = WitchState.Idle;
-			oldSpeed = speed;
-			speed = 0;
-			animator.SetFloat ("speed", 0);
-		} else if (rand < 0.4f) {
+		if (rand < 0.25f || ((state == WitchState.Spellcasting || state == WitchState.Lunging || state == WitchState.Damaged) && rand < 0.5f)) {
+			//Walking
 			State = WitchState.Walking;
-			oldSpeed = speed;
+			//oldSpeed = speed;
 			speed = RandomFromDistribution.RandomNormalDistribution (1.2f, .25f);
-			animator.SetFloat ("speed", speed);
-		} else {
+			animator.SetBool ("Walk", true);
+			return 2f; //2 Seconds
+		} else if (rand < 0.5f || state == WitchState.Spellcasting || state == WitchState.Lunging || state == WitchState.Damaged) {
+			//Idle
+			State = WitchState.Idle;
+			speed = 0;
+			animator.SetBool ("Idle", true);
+			return 1f; //1 Second
+		} else if (rand < 0.75f) {
+			//Lunging
 			State = WitchState.Lunging;
 			Vector3 shinySummon = transform.localPosition;
-			shinySummon = new Vector3 (shinySummon.x + 4f, shinySummon.y, shinySummon.z);
+			shinySummon = new Vector3 (shinySummon.x + 4f, shinySummon.y - 1f, shinySummon.z);
 			if (myShiny != null) {
 				Destroy (myShiny);
 			}
 			myShiny = (GameObject)Instantiate (ShinyPrefab, shinySummon, Quaternion.identity);
-			oldSpeed = speed;
+			//oldSpeed = speed;
 			speed = 0;
+			animator.SetBool ("DoWitchyAction", true);
 			animator.SetFloat ("WitchyAction", 1);
+			return 2f; //2 Seconds
+		} else {
+			//Spellcasting
+			State = WitchState.Spellcasting;
+			speed = 0;
+			animator.SetBool ("DoWitchyAction", true);
+			animator.SetFloat ("WitchyAction", 0);
+			return 3f; //4 Seconds
 		}
 	}
 
@@ -103,6 +138,20 @@ public class Witch : MonoBehaviour {
 		if (state == WitchState.Melted)
 			return;
 		health -= damage;
+		speed = 0;
+
+		switch(state) {
+		case WitchState.Idle:
+			animator.SetBool ("Idle", false);
+			break;
+		case WitchState.Walking:
+			animator.SetBool ("Walk", false);
+			break;
+		case WitchState.Lunging:
+		case WitchState.Spellcasting:
+			animator.SetBool ("DoWitchyAction", false);
+			break;
+		}
 
 		if (health <= 0) {
 			state = WitchState.Melted;
