@@ -14,7 +14,7 @@ public class RainManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		foreach (Witch witch in WitchManager.instance.Witches) {
-			if (witch.State == WitchState.Offscreen || witch.State == WitchState.Melted) {
+			if (witch.State == WitchState.Offscreen || witch.State == WitchState.Melted || witch.CannotHit) {
 				continue;
 			}
 

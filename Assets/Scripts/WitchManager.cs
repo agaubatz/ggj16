@@ -9,7 +9,7 @@ public class WitchManager : MonoBehaviour {
 	private Bounds WitchBounds;
 	private List<Witch> witches = new List<Witch>();
 	private Dictionary<Witch, float> deadWitches = new Dictionary<Witch, float>();
-	private const float summonEvery = 5f;
+	private const float summonEvery = 10f;
 	private const float destroyAnimation = 3f;
 	public const float summonY = -3.14f;
 	private float lastSummon = 0f;
@@ -26,7 +26,7 @@ public class WitchManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Witch w = SummonWitch(-4);
+		Witch w = SummonWitch(8);
 		foreach (var child in w.GetComponentsInChildren<Renderer>()) {
 			WitchBounds.Encapsulate (child.bounds);
 		}
@@ -57,7 +57,7 @@ public class WitchManager : MonoBehaviour {
 		lastSummon += Time.deltaTime;
 		if (lastSummon >= summonEvery) {
 			lastSummon = 0f;
-			//SummonWitch(FollowCamera.instance.JustOffscreen.x + WitchBounds.extents.x);
+			//SummonWitch(Random.Range(FollowCamera.instance.ScreenLeft.x, FollowCamera.instance.ScreenRight.x));
 		}
 	}
 

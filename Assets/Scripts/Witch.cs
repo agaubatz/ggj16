@@ -21,6 +21,7 @@ public class Witch : MonoBehaviour {
 			return state;
 		}
 	}
+	public bool CannotHit = false;
 
 	public float health = 5f;
 
@@ -46,20 +47,7 @@ public class Witch : MonoBehaviour {
 		if(updateIn <= 0.5f && (State == WitchState.Lunging || State == WitchState.Spellcasting)) { //End the animation!
 			animator.SetBool ("DoWitchyAction", false);
 		}
-			
-		//animator.SetBool ("DoWitchyAction", State == WitchState.Spellcasting || State == WitchState.Lunging);
 
-		/*
-		float mySpeed = speed;
-		if (timeSinceUpdate < DAMP && state == WitchState.Walking) {
-			mySpeed = oldSpeed + (speed-oldSpeed)*(float)Easing.QuadEaseOut(timeSinceUpdate, 0, 1, DAMP);
-		}
-		if (speed > 1) {
-			animator.speed = Mathf.Abs (mySpeed);	
-		} else {
-			animator.speed = 1;
-		}
-		*/
 		float walkSpeed = speed;
 		if (timeSince <= 0.5f && State == WitchState.Walking) { //Ease into walking speed
 			walkSpeed = speed * (float)Easing.QuadEaseInOut (timeSince, 0, 1, 0.5f);
@@ -73,8 +61,17 @@ public class Witch : MonoBehaviour {
 			walkSpeed = 4f * (float)Easing.CubicEaseOut (updateIn, 1, 0, 0.5f);
 		}
 
-		if (updateIn <= 1f && updateIn + Time.deltaTime > 1f && State == WitchState.Spellcasting) { //Teleport
-			transform.localPosition = new Vector3 (transform.localPosition.x - 3f, transform.localPosition.y, transform.localPosition.z);
+		if (updateIn <= 1f && updateIn + Time.deltaTime > 1f && State == WitchState.Spellcasting) { //Start Teleport
+			CannotHit = true;
+			foreach (var child in GetComponentsInChildren<Renderer>()) {
+				child.enabled = false;
+			}
+		} else if (updateIn <= 0.5f && updateIn + Time.deltaTime > 0.5f && State == WitchState.Spellcasting) { //End teleport
+			transform.localPosition = new Vector3 (transform.localPosition.x - 5f, transform.localPosition.y, transform.localPosition.z);
+			CannotHit = false;
+			foreach (var child in GetComponentsInChildren<Renderer>()) {
+				child.enabled = true;
+			}
 		}
 
 		transform.localPosition = new Vector3(transform.localPosition.x + walkSpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
@@ -101,7 +98,7 @@ public class Witch : MonoBehaviour {
 			//Walking
 			State = WitchState.Walking;
 			//oldSpeed = speed;
-			speed = RandomFromDistribution.RandomNormalDistribution (1.2f, .25f);
+			speed = RandomFromDistribution.RandomNormalDistribution (2f, 0.5f);
 			animator.SetBool ("Walk", true);
 			return 2f; //2 Seconds
 		} else if (rand < 0.5f || state == WitchState.Spellcasting || state == WitchState.Lunging || state == WitchState.Damaged) {
