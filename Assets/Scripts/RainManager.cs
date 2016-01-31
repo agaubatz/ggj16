@@ -32,8 +32,9 @@ public class RainManager : MonoBehaviour {
 			float damage = numCollided / total;
 
 			if (damage > DAMAGETHRESHOLD) {
-				witch.State = WitchState.Damaged;
-				witch.DealDamage(damage * Time.deltaTime);
+				witch.DealDamage (damage * Time.deltaTime);
+			} else {
+				witch.CoveredByUmbrella();
 			}
 		}
 	}
