@@ -4,19 +4,25 @@ using System.Collections.Generic;
 
 public class BirdManager : MonoBehaviour {
 	public static BirdManager instance;
-	public GameObject BirdPrefab;
+	public GameObject GoodPrefab;
+	public GameObject BadPrefab;
 	private List<Bird> birds = new List<Bird>();
 	private const float summonEvery = 2f;
 	private float lastSummon = 2f;
 
-	private Bounds prefabBounds;
+	private Bounds goodBounds;
+	private Bounds badBounds;
 
 	void Awake() {
 		instance = this;
 
-		prefabBounds = new Bounds();
-		foreach (var child in BirdPrefab.GetComponentsInChildren<SpriteRenderer>()) {
-			prefabBounds.Encapsulate (child.bounds);
+		goodBounds = new Bounds();
+		badBounds = new Bounds();
+		foreach (var child in GoodPrefab.GetComponentsInChildren<SpriteRenderer>()) {
+			goodBounds.Encapsulate (child.bounds);
+		}
+		foreach (var child in BadPrefab.GetComponentsInChildren<SpriteRenderer>()) {
+			badBounds.Encapsulate (child.bounds);
 		}
 	}
 
@@ -39,7 +45,7 @@ public class BirdManager : MonoBehaviour {
 
 		List<Bird> deadBirds = new List<Bird> ();
 		foreach (Bird b in birds) {
-			if (b.toDestroy || (FollowCamera.instance.ScreenLeft.x > b.transform.position.x + prefabBounds.extents.x)) {
+			if (b.toDestroy || (b.isGood && FollowCamera.instance.ScreenLeft.x > b.transform.position.x + goodBounds.extents.x) || (!b.isGood && FollowCamera.instance.ScreenLeft.x > b.transform.position.x + badBounds.extents.x)) {
 				deadBirds.Add (b);
 			}
 		}
@@ -50,14 +56,18 @@ public class BirdManager : MonoBehaviour {
 	}
 
 	void SummonBird() {
-
-
-		float x = FollowCamera.instance.ScreenRight.x + prefabBounds.extents.x;
-		float y = Random.Range(-2f, 10f);
-		Vector3 summonPosition = new Vector3(x, y, BirdPrefab.transform.position.z);
-		Bird b = ((GameObject)Instantiate (BirdPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
-		birds.Add(b);
 		if (Random.value > 0.5f) {
+			float x = FollowCamera.instance.ScreenRight.x + goodBounds.extents.x;
+			float y = Random.Range (-2f, 10f);
+			Vector3 summonPosition = new Vector3 (x, y, GoodPrefab.transform.position.z);
+			Bird b = ((GameObject)Instantiate (GoodPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
+			birds.Add (b);
+		} else {
+			float x = FollowCamera.instance.ScreenRight.x + badBounds.extents.x;
+			float y = Random.Range (-2f, 10f);
+			Vector3 summonPosition = new Vector3 (x, y, BadPrefab.transform.position.z);
+			Bird b = ((GameObject)Instantiate (BadPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
+			birds.Add (b);
 			b.MakeEvil ();
 		}
 	}
