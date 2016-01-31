@@ -17,6 +17,10 @@ public class Umbrella : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (TextManager.instance.GameOver) {
+			return;
+		}
+
 		if (state != UmbrellaState.Normal && powerUpDuration > 0) {
 			powerUpDuration -= Time.deltaTime;
 			if (powerUpDuration < 0) {

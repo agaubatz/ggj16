@@ -997,7 +997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 403799485}
-  scoreManager: {fileID: 2057750388}
+  gameOver: 0
 --- !u!222 &403799487
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3610,7 +3610,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WitchPrefab: {fileID: 185648, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-  ShinyPrefab: {fileID: 117136, guid: cf38b7c3590094167b97c7bebc5df7dc, type: 2}
 --- !u!4 &1247889995
 Transform:
   m_ObjectHideFlags: 0

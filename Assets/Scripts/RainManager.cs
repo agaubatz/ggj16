@@ -13,6 +13,10 @@ public class RainManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (TextManager.instance.GameOver) {
+			return;
+		}
+
 		foreach (Witch witch in WitchManager.instance.Witches) {
 			if (witch.State == WitchState.Offscreen || witch.State == WitchState.Melted || witch.CannotHit) {
 				continue;

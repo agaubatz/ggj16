@@ -29,6 +29,10 @@ public class FollowCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (TextManager.instance.GameOver) {
+			return;
+		}
+
 		Bounds AllWitchBounds = new Bounds();
 		bool notSet = true;
 		foreach (Witch w in WitchManager.instance.Witches) {

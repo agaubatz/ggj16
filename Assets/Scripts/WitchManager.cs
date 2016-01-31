@@ -33,6 +33,10 @@ public class WitchManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (TextManager.instance.GameOver) {
+			return;
+		}
+
 		List<Witch> removeFromDead = new List<Witch> ();
 		foreach (Witch w in new List<Witch>(deadWitches.Keys)) {
 			deadWitches[w] -= Time.deltaTime;
@@ -57,6 +61,10 @@ public class WitchManager : MonoBehaviour {
 		if (lastSummon >= summonEvery) {
 			lastSummon = 0f;
 			SummonWitch(Random.Range(FollowCamera.instance.ScreenLeft.x, FollowCamera.instance.ScreenRight.x));
+		}
+
+		if (witches.Count == 0) {
+			TextManager.instance.EndGame();
 		}
 	}
 

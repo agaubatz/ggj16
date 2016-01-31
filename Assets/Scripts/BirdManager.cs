@@ -20,6 +20,10 @@ public class BirdManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (TextManager.instance.GameOver) {
+			return;
+		}
+
 		lastSummon -= Time.deltaTime;
 		if (lastSummon <= 0) {
 			lastSummon = RandomFromDistribution.RandomNormalDistribution(summonEvery, 0.5f);

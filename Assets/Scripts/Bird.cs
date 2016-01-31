@@ -20,6 +20,10 @@ public class Bird : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (TextManager.instance.GameOver) {
+			return;
+		}
+
 		timeOnScreen += Time.deltaTime;
 		float progress = 0;
 		if (timeOnScreen <= 2f) {
