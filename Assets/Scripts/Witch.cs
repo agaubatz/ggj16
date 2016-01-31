@@ -18,7 +18,7 @@ public class Witch : MonoBehaviour {
 	private WitchState state = WitchState.Offscreen;
 	public WitchState State {
 		set {
-			Debug.Log(string.Format("State from {0} to {1}", state, value));
+			//Debug.Log(string.Format("State from {0} to {1}", state, value));
 			state = value;
 		}
 		get {

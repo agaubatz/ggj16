@@ -6,21 +6,29 @@ public class Bird : MonoBehaviour {
 	public bool isGood = true;
 	private float timeOnScreen = 0f;
 	private float destination = 0f;
+	private float startY = 0f;
 
 	// Use this for initialization
 	void Start () {
+		startY = transform.position.y;
 		if (transform.position.y <= 4f) {
-			destination = 2f;
+			destination = 4f;
 		} else {
-			destination = -2f;
+			destination = -4f;
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		timeOnScreen += Time.deltaTime;
-		float progress = (float)Easing.QuadEaseInOut (timeOnScreen, 0, 1, 5f);
-		transform.localPosition = new Vector3(transform.localPosition.x - 5f*Time.deltaTime, transform.localPosition.y + Time.deltaTime*progress*destination, transform.localPosition.z);
+		float progress = 0;
+		if (timeOnScreen <= 2f) {
+			progress = (float)Easing.SineEaseOut (timeOnScreen, 0, 1, 2f);
+		} else {
+			progress = 1f-(float)Easing.SineEaseIn(timeOnScreen-2f, 0, 1, 2f);
+		}
+		Debug.Log (string.Format("{0} {1}", timeOnScreen, progress));
+		transform.localPosition = new Vector3(transform.localPosition.x - 5f*Time.deltaTime, startY + progress*destination, transform.localPosition.z);
 	}
 
 	public void MakeEvil() {
