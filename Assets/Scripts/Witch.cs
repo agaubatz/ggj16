@@ -2,12 +2,10 @@
 using System.Collections;
 
 public enum WitchState {
-	Spellcasting, Walking, Damaged
+	Offscreen, Spellcasting, Walking, Damaged
 }
 
 public class Witch : MonoBehaviour {
-	public ScoreManager score;
-
 	private const float UPDATEEVERY = 2f;
 	private const float MAXDISTFROMCAMERA = 5.5f;
 	private const float SPEEDSTDEV = 0.5f;
@@ -18,8 +16,11 @@ public class Witch : MonoBehaviour {
 	private WitchState state = WitchState.Walking;
 	public WitchState State {
 		set {
-			Debug.Log(string.Format("State from {0} to {1}", state, value));
+			//Debug.Log(string.Format("State from {0} to {1}", state, value));
 			state = value;
+		}
+		get {
+			return state;
 		}
 	}
 
@@ -55,7 +56,7 @@ public class Witch : MonoBehaviour {
 
 	void UpdateState() {
 		if (state == WitchState.Spellcasting) { //You successfully cast the spell!
-			score.score += 5;
+			ScoreManager.instance.score += 5;
 		}
 
 		float rand = Random.value;

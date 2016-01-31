@@ -15,6 +15,10 @@ public class RainManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		foreach (Witch witch in witches.Witches) {
+			if (witch.State == WitchState.Offscreen) {
+				continue;
+			}
+
 			Bounds witchBounds = witch.GetComponent<BoxCollider2D>().bounds;
 			int numCollided = 0;
 			float total = 0;

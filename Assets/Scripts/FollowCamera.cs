@@ -6,6 +6,12 @@ public class FollowCamera : MonoBehaviour {
 	public Umbrella umbrella;
 	public const float CAMERASPEED = 1f;
 
+	public Vector3 JustOffscreen {
+		get {
+			return Camera.main.ViewportToWorldPoint (new Vector3 (1, 0, 10));
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 	
