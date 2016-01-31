@@ -7,7 +7,10 @@ public class WitchManager : MonoBehaviour {
 	public GameObject WitchPrefab;
 	private Bounds WitchBounds;
 	private List<Witch> witches = new List<Witch>();
+	private Dictionary<Witch, float> deadWitches = new Dictionary<Witch, float>();
 	private const float summonEvery = 5f;
+	private const float destroyAnimation = 3f;
+	public const float summonY = -3.14f;
 	private float lastSummon = 0f;
 
 	public List<Witch> Witches {
@@ -30,7 +33,26 @@ public class WitchManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		List<Witch> removeFromDead = new List<Witch> ();
+		foreach (Witch w in new List<Witch>(deadWitches.Keys)) {
+			deadWitches[w] -= Time.deltaTime;
+			if (deadWitches [w] <= 0) {
+				witches.Remove (w);
+				removeFromDead.Add (w);
+			}
+		}
+		foreach (Witch w in removeFromDead) {
+			deadWitches.Remove (w);
+			Destroy (w);
+		}
+
 		foreach (Witch w in witches) {
+			if (w.State == WitchState.Melted) {
+				if (!deadWitches.ContainsKey (w)) {
+					deadWitches.Add (w, destroyAnimation);
+				}
+				continue;
+			}
 			var dist = (w.transform.position - Camera.main.transform.position).z;
 			float leftBorder = Camera.main.ViewportToWorldPoint (new Vector3 (0, 0, dist)).x;
 			float rightBorder = Camera.main.ViewportToWorldPoint (new Vector3 (1, 0, dist)).x;
@@ -50,13 +72,9 @@ public class WitchManager : MonoBehaviour {
 	Witch SummonWitch(float xPos) {
 		Vector3 summonPosition = WitchPrefab.transform.position;
 		summonPosition.x = xPos;
-		summonPosition.y = -3.14f;
+		summonPosition.y = summonY;
 		Witch w = ((GameObject)Instantiate (WitchPrefab, summonPosition, Quaternion.identity)).GetComponent<Witch> ();
 		witches.Add(w);
 		return w;
-	}
-
-	public void KillWitch(Witch witch) {
-		witches.Remove(witch);
 	}
 }

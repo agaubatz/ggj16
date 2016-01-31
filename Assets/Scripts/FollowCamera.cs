@@ -35,7 +35,7 @@ public class FollowCamera : MonoBehaviour {
 			}
 		}
 		Vector3 center = AllWitchBounds.center;
-		Vector3 target = new Vector3 (center.x, center.y, transform.position.z);
+		Vector3 target = new Vector3 (center.x, WitchManager.summonY, transform.position.z);
 
 		float orthographicSize = Camera.main.orthographicSize;
 		Vector3 topRight = new Vector3(AllWitchBounds.max.x, AllWitchBounds.max.y, 0f);

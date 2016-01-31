@@ -86,8 +86,6 @@ public class Witch : MonoBehaviour {
 		if (health <= 0) {
 			State = WitchState.Melted;
 			animator.SetBool("Die", true);
-
-			//WitchManager.instance.KillWitch(this);
 		}
 	}
 }
