@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum WitchState {
 	Offscreen, Spellcasting, Idle, Walking, Lunging, Damaged, Melted
@@ -18,6 +19,9 @@ public class Witch : MonoBehaviour {
 	private float vulnerableCountdown = 2f;
 	private bool startInvulnerable = true;
 	private WitchState state = WitchState.Offscreen;
+
+	public Dictionary<WitchColor, Color> colors = new Dictionary<WitchColor, Color>();
+
 	public WitchState State {
 		set {
 			//Debug.Log(string.Format("State from {0} to {1}", state, value));
@@ -39,6 +43,14 @@ public class Witch : MonoBehaviour {
 	private float health = 2f;
 
 	private Animator animator;
+
+	void Awake() {
+		colors[WitchColor.Skin] = Color.green;
+		colors[WitchColor.Hat] = Color.gray;
+		colors[WitchColor.Hair] = Color.yellow;
+		colors[WitchColor.Robe] = Color.blue;
+
+	}
 
 	// Use this for initialization
 	void Start () {
