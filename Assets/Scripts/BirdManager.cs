@@ -6,7 +6,7 @@ public class BirdManager : MonoBehaviour {
 	public static BirdManager instance;
 	public GameObject BirdPrefab;
 	private List<Bird> birds = new List<Bird>();
-	private const float summonEvery = 10f;
+	private const float summonEvery = 1f;
 	private float lastSummon = 0f;
 
 	void Awake() {

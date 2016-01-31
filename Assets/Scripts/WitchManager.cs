@@ -41,17 +41,15 @@ public class WitchManager : MonoBehaviour {
 				removeFromDead.Add (w);
 			}
 		}
+
 		foreach (Witch w in removeFromDead) {
 			deadWitches.Remove (w);
-			Destroy (w);
+			Destroy (w.gameObject);
 		}
 
 		foreach (Witch w in witches) {
-			if (w.State == WitchState.Melted) {
-				if (!deadWitches.ContainsKey (w)) {
-					deadWitches.Add (w, destroyAnimation);
-				}
-				continue;
+			if (w.State == WitchState.Melted && !deadWitches.ContainsKey (w)) {
+				deadWitches.Add (w, destroyAnimation);
 			}
 		}
 
