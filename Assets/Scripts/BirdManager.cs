@@ -40,7 +40,7 @@ public class BirdManager : MonoBehaviour {
 
 	void SummonBird() {
 		float x = FollowCamera.instance.ScreenRight.x + BirdPrefab.GetComponent<SpriteRenderer> ().bounds.extents.x;
-		float y = RandomFromDistribution.RandomNormalDistribution (3f, 0.5f);
+		float y = Random.Range(-2f, 10f);
 		Vector3 summonPosition = new Vector3(x, y, BirdPrefab.transform.position.z);
 		Bird b = ((GameObject)Instantiate (BirdPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
 		birds.Add(b);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class WitchManager : MonoBehaviour {
 	public static WitchManager instance;
 	public GameObject WitchPrefab;
+	public GameObject ShinyPrefab;
 	private Bounds WitchBounds;
 	private List<Witch> witches = new List<Witch>();
 	private Dictionary<Witch, float> deadWitches = new Dictionary<Witch, float>();

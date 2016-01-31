@@ -2,7 +2,7 @@
 using System.Collections;
 
 public enum WitchState {
-	Offscreen, Spellcasting, Walking, Lunging, Damaged, Melted
+	Offscreen, Spellcasting, Idle, Walking, Lunging, Damaged, Melted
 }
 
 public class Witch : MonoBehaviour {
@@ -14,7 +14,7 @@ public class Witch : MonoBehaviour {
 	private WitchState state = WitchState.Offscreen;
 	public WitchState State {
 		set {
-			//Debug.Log(string.Format("State from {0} to {1}", state, value));
+			Debug.Log(string.Format("State from {0} to {1}", state, value));
 			state = value;
 		}
 		get {
@@ -41,6 +41,8 @@ public class Witch : MonoBehaviour {
 			timeSinceUpdate = 0;
 			UpdateState();
 		}
+			
+		animator.SetBool ("DoWitchyAction", State == WitchState.Spellcasting);
 
 		float mySpeed = speed;
 		if (timeSinceUpdate < DAMP && state == WitchState.Walking) {
@@ -63,6 +65,10 @@ public class Witch : MonoBehaviour {
 		float rand = Random.value;
 		if (rand < 0.2f) {
 			State = WitchState.Spellcasting;
+			oldSpeed = speed;
+			speed = 0;
+		} else if(rand < 0.3f) {
+			State = WitchState.Idle;
 			oldSpeed = speed;
 			speed = 0;
 			animator.SetFloat ("speed", 0);

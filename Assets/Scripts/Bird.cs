@@ -4,15 +4,23 @@ using System.Collections;
 public class Bird : MonoBehaviour {
 	public bool toDestroy = false;
 	public bool isGood = true;
+	private float timeOnScreen = 0f;
+	private float destination = 0f;
 
 	// Use this for initialization
 	void Start () {
-	
+		if (transform.position.y <= 4f) {
+			destination = 2f;
+		} else {
+			destination = -2f;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.localPosition = new Vector3(transform.localPosition.x - 5f*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
+		timeOnScreen += Time.deltaTime;
+		float progress = (float)Easing.QuadEaseInOut (timeOnScreen, 0, 1, 5f);
+		transform.localPosition = new Vector3(transform.localPosition.x - 5f*Time.deltaTime, transform.localPosition.y + Time.deltaTime*progress*destination, transform.localPosition.z);
 	}
 
 	public void MakeEvil() {
