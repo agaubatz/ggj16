@@ -2309,22 +2309,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 21236746, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_SortingLayerID
-      value: -693572189
-      objectReference: {fileID: 0}
-    - target: {fileID: 21280138, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_SortingLayerID
-      value: -693572189
-      objectReference: {fileID: 0}
-    - target: {fileID: 21293038, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_SortingLayerID
-      value: -693572189
-      objectReference: {fileID: 0}
-    - target: {fileID: 21260212, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
-      propertyPath: m_SortingLayerID
-      value: -693572189
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7d08f05d47ca5452c910a2b73ef24fae, type: 2}
   m_IsPrefabParent: 0
@@ -4131,8 +4115,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1901795991}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.8, y: -3.83, z: 0}
-  m_LocalScale: {x: 0.22148871, y: 0.22148871, z: 0.22148871}
+  m_LocalPosition: {x: -3.8, y: -3.14, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1132394761}
   m_Father: {fileID: 0}
@@ -4149,6 +4133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: {fileID: 2057750388}
+  isBeingDamaged: 0
 --- !u!61 &1901795995
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4189,11 +4174,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 473352, guid: 6d9310a77792e43d58c61c4b2b26694d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -7.08
+      value: -3.86
       objectReference: {fileID: 0}
     - target: {fileID: 473352, guid: 6d9310a77792e43d58c61c4b2b26694d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.35
+      value: -0.31
       objectReference: {fileID: 0}
     - target: {fileID: 473352, guid: 6d9310a77792e43d58c61c4b2b26694d, type: 2}
       propertyPath: m_LocalPosition.z
