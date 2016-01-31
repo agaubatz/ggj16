@@ -56,7 +56,7 @@ public class WitchManager : MonoBehaviour {
 		lastSummon += Time.deltaTime;
 		if (lastSummon >= summonEvery) {
 			lastSummon = 0f;
-			//SummonWitch(Random.Range(FollowCamera.instance.ScreenLeft.x, FollowCamera.instance.ScreenRight.x));
+			SummonWitch(Random.Range(FollowCamera.instance.ScreenLeft.x, FollowCamera.instance.ScreenRight.x));
 		}
 	}
 

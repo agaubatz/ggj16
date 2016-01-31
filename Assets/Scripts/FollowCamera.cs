@@ -24,7 +24,7 @@ public class FollowCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		Camera.main.orthographicSize = 8f;
 	}
 	
 	// Update is called once per frame
@@ -39,10 +39,14 @@ public class FollowCamera : MonoBehaviour {
 				}
 				AllWitchBounds.Encapsulate (child.bounds);
 			}
+			if (w.MyShiny != null) {
+				AllWitchBounds.Encapsulate (w.MyShiny.GetComponentInChildren<SpriteRenderer>().bounds);
+			}
 		}
 		Vector3 center = AllWitchBounds.center;
 		Vector3 target = new Vector3 (center.x, WitchManager.summonY, transform.position.z);
 
+		/*
 		float orthographicSize = Camera.main.orthographicSize;
 		Vector3 topRight = new Vector3(AllWitchBounds.max.x, AllWitchBounds.max.y, 0f);
 		Vector3 topRightAsViewport = Camera.main.WorldToViewportPoint(topRight);
@@ -54,10 +58,10 @@ public class FollowCamera : MonoBehaviour {
 		}
 
 		Camera.main.orthographicSize = Mathf.Clamp(Mathf.Lerp(Camera.main.orthographicSize, orthographicSize, Time.deltaTime * 20f), 8f, Mathf.Infinity);
-
+		*/
 
 		Vector3 point = Camera.main.WorldToViewportPoint(target);
-		Vector3 delta = target - Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.2f, point.z)); //(new Vector3(0.5, 0.5, point.z));
+		Vector3 delta = target - Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.2f, point.z));
 		Vector3 destination = transform.position + delta;
 		transform.position = Vector3.SmoothDamp(transform.position, destination, ref velocity, dampTime);
 	}
