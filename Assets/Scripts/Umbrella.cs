@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum UmbrellaState {
 	Normal, Large, Disabled
 }
 
 public class Umbrella : MonoBehaviour {
+	public GameObject subs;
+
+	public List<GameObject> hurtObjects;
+	public List<GameObject> nonHurtObjects;
+
 	private float powerUpDuration = 0f;
 	private Vector3 oldScale = Vector3.zero;
 	private UmbrellaState state = UmbrellaState.Normal;
@@ -25,11 +31,16 @@ public class Umbrella : MonoBehaviour {
 			powerUpDuration -= Time.deltaTime;
 			if (powerUpDuration < 0) {
 				if (state == UmbrellaState.Disabled) {
-					GetComponentInChildren<Collider2D> ().enabled = true;
-					SpriteRenderer renderer = GetComponentInChildren<SpriteRenderer> ();
-					renderer.color = new Color(1f, 1f, 1f, 1f);
+					foreach (GameObject go in hurtObjects)
+					{
+						go.SetActive(false);
+					}
+					foreach (GameObject go in nonHurtObjects)
+					{
+						go.SetActive(true);
+					}
 				} else if(state == UmbrellaState.Large) {
-					transform.localScale = oldScale;
+					subs.SetActive(false);
 				}
 			}
 		}
@@ -42,13 +53,19 @@ public class Umbrella : MonoBehaviour {
 		if (b.isGood) {
 			state = UmbrellaState.Large;
 			powerUpDuration = 4f;
-			transform.localScale = new Vector3 (1.5f * oldScale.x, oldScale.y, oldScale.z);
+			subs.SetActive(true);
 		} else {
 			powerUpDuration = 2f;
 			state = UmbrellaState.Disabled;
-			GetComponentInChildren<Collider2D> ().enabled = false;
-			SpriteRenderer renderer = GetComponentInChildren<SpriteRenderer> ();
-			renderer.color = new Color(1f, 1f, 1f, 0.5f);
+
+			foreach (GameObject go in hurtObjects)
+			{
+				go.SetActive(true);
+			}
+			foreach (GameObject go in nonHurtObjects)
+			{
+				go.SetActive(false);
+			}
 		}
 	}
 }
