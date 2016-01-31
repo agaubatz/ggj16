@@ -66,6 +66,7 @@ public class WitchManager : MonoBehaviour {
 		summonPosition.x = xPos;
 		summonPosition.y = summonY;
 		Witch w = ((GameObject)Instantiate (WitchPrefab, summonPosition, Quaternion.identity)).GetComponent<Witch> ();
+		w.ShinyPrefab = ShinyPrefab;
 		witches.Add(w);
 		return w;
 	}
