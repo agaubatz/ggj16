@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Witch : MonoBehaviour {
 	public ScoreManager score;
+	public bool isBeingDamaged = false;
+
 	private const float UPDATEEVERY = 2f;
 	private const float MAXDISTFROMCAMERA = 5.5f;
 	private const float SPEEDSTDEV = 0.5f;
@@ -47,5 +49,7 @@ public class Witch : MonoBehaviour {
 		}
 
 		transform.localPosition = new Vector3(transform.localPosition.x + mySpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
+
+		animator.SetBool("Hit", isBeingDamaged);
 	}
 }
