@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class Bird : MonoBehaviour {
+	public bool toDestroy = false;
+	public bool isGood = true;
 
 	// Use this for initialization
 	void Start () {
@@ -13,11 +15,17 @@ public class Bird : MonoBehaviour {
 		transform.localPosition = new Vector3(transform.localPosition.x - 5f*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 	}
 
+	public void MakeEvil() {
+		isGood = false;
+		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+		renderer.color = new Color(1f, 0f, 0f, 1f); // Set to opaque gray
+	}
+
 	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.GetComponentInParent<Umbrella>() != null) {
 			Umbrella u = coll.GetComponentInParent<Umbrella>();
-			u.PowerUp();
-			Destroy (this.gameObject);
+			u.CollideWithBird(this);
+			toDestroy = true;
 		}
 	}
 }

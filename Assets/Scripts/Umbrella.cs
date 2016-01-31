@@ -4,6 +4,7 @@ using System.Collections;
 public class Umbrella : MonoBehaviour {
 	private float powerUpDuration = 0f;
 	private Vector3 oldScale = Vector3.zero;
+	private bool inactive = false;
 
 	// Use this for initialization
 	void Start () {
@@ -22,8 +23,10 @@ public class Umbrella : MonoBehaviour {
 		transform.position =  new Vector3(mouseScreenPosition.x, mouseScreenPosition.y, 0);
 	}
 
-	public void PowerUp() {
-		powerUpDuration = 4f;
-		transform.localScale = new Vector3(2f * oldScale.x, oldScale.y, oldScale.z);
+	public void CollideWithBird(Bird b) {
+		if (b.isGood) {
+			powerUpDuration = 4f;
+			transform.localScale = new Vector3 (2f * oldScale.x, oldScale.y, oldScale.z);
+		}
 	}
 }

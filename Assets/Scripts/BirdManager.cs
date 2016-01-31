@@ -6,8 +6,8 @@ public class BirdManager : MonoBehaviour {
 	public static BirdManager instance;
 	public GameObject BirdPrefab;
 	private List<Bird> birds = new List<Bird>();
-	private const float summonEvery = 1f;
-	private float lastSummon = 0f;
+	private const float summonEvery = 2f;
+	private float lastSummon = 2f;
 
 	void Awake() {
 		instance = this;
@@ -20,18 +20,32 @@ public class BirdManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		lastSummon += Time.deltaTime;
-		if (lastSummon >= summonEvery) {
-			lastSummon = 0f;
+		lastSummon -= Time.deltaTime;
+		if (lastSummon <= 0) {
+			lastSummon = RandomFromDistribution.RandomNormalDistribution(summonEvery, 0.5f);
 			SummonBird();
+		}
+
+		List<Bird> deadBirds = new List<Bird> ();
+		foreach (Bird b in birds) {
+			if (b.toDestroy || (FollowCamera.instance.ScreenLeft.x > b.transform.position.x + BirdPrefab.GetComponent<SpriteRenderer> ().bounds.extents.x)) {
+				deadBirds.Add (b);
+			}
+		}
+		foreach (Bird b in deadBirds) {
+			birds.Remove (b);
+			Destroy (b.gameObject);
 		}
 	}
 
 	void SummonBird() {
-		float x = FollowCamera.instance.JustOffscreen.x + BirdPrefab.GetComponent<SpriteRenderer> ().bounds.extents.x;
+		float x = FollowCamera.instance.ScreenRight.x + BirdPrefab.GetComponent<SpriteRenderer> ().bounds.extents.x;
 		float y = RandomFromDistribution.RandomNormalDistribution (3f, 0.5f);
 		Vector3 summonPosition = new Vector3(x, y, BirdPrefab.transform.position.z);
 		Bird b = ((GameObject)Instantiate (BirdPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
 		birds.Add(b);
+		if (Random.value > 0.5f) {
+			b.MakeEvil ();
+		}
 	}
 }

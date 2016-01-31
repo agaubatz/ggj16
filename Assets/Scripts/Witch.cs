@@ -2,13 +2,11 @@
 using System.Collections;
 
 public enum WitchState {
-	Offscreen, Spellcasting, Walking, Damaged, Melted
+	Offscreen, Spellcasting, Walking, Lunging, Damaged, Melted
 }
 
 public class Witch : MonoBehaviour {
 	private const float UPDATEEVERY = 2f;
-	private const float MAXDISTFROMCAMERA = 5.5f;
-	private const float SPEEDSTDEV = 0.5f;
 	private const float DAMP = 1f;
 	private float timeSinceUpdate = UPDATEEVERY; //So it updates frame 1
 	private float speed = 1f;
@@ -45,8 +43,8 @@ public class Witch : MonoBehaviour {
 		}
 
 		float mySpeed = speed;
-		if (timeSinceUpdate < DAMP) {
-			mySpeed = oldSpeed + (speed-oldSpeed)*(float)Easing.QuadEaseInOut(timeSinceUpdate, 0, 1, DAMP);
+		if (timeSinceUpdate < DAMP && state == WitchState.Walking) {
+			mySpeed = oldSpeed + (speed-oldSpeed)*(float)Easing.QuadEaseOut(timeSinceUpdate, 0, 1, DAMP);
 		}
 		if (speed > 1) {
 			animator.speed = Mathf.Abs (mySpeed);	
@@ -65,12 +63,18 @@ public class Witch : MonoBehaviour {
 		float rand = Random.value;
 		if (rand < 0.2f) {
 			State = WitchState.Spellcasting;
+			oldSpeed = speed;
 			speed = 0;
-			animator.SetFloat("speed", 0);
-		} else {
+			animator.SetFloat ("speed", 0);
+		} else if (rand < 0.9f) {
 			State = WitchState.Walking;
 			oldSpeed = speed;
-			speed = RandomFromDistribution.RandomNormalDistribution (1.2f, SPEEDSTDEV);
+			speed = RandomFromDistribution.RandomNormalDistribution (1.2f, .25f);
+			animator.SetFloat ("speed", speed);
+		} else {
+			State = WitchState.Lunging;
+			oldSpeed = speed;
+			speed = RandomFromDistribution.RandomNormalDistribution (4f, .25f);
 			animator.SetFloat ("speed", speed);
 		}
 	}

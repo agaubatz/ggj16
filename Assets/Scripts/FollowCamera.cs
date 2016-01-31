@@ -3,12 +3,18 @@ using System.Collections;
 
 public class FollowCamera : MonoBehaviour {
 	public static FollowCamera instance;
-	private const float dampTime = .15f;
+	private const float dampTime = 1f;
 	private Vector3 velocity = Vector3.zero;
 
-	public Vector3 JustOffscreen {
+	public Vector3 ScreenRight {
 		get {
 			return Camera.main.ViewportToWorldPoint (new Vector3 (1, 0, 10));
+		}
+	}
+
+	public Vector3 ScreenLeft {
+		get {
+			return Camera.main.ViewportToWorldPoint (new Vector3 (0, 0, 10));
 		}
 	}
 
