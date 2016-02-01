@@ -60,11 +60,19 @@ public class Witch : MonoBehaviour {
 	private static Color[] HatOptions = new Color[]{ColorBible.AzureWebAzureMist, ColorBible.CanaryYellow, ColorBible.Capri, ColorBible.Daffodil, ColorBible.DeepMagenta, ColorBible.ElectricViolet, ColorBible.HotMagenta, ColorBible.LawnGreen, ColorBible.NeonCarrot, ColorBible.OliveDrab7, ColorBible.Ruby, ColorBible.Russet, ColorBible.VividTangerine, ColorBible.UpMaroon};
 	private static Color[] HairOptions = new Color[]{ColorBible.Wenge, ColorBible.MediumTaupe, ColorBible.Charcoal, ColorBible.Black, ColorBible.SmokyBlack, ColorBible.Bistre, ColorBible.Onyx, ColorBible.Heliotrope, ColorBible.Jade};
 
+	private static int witchEyebrowIndex = 0;
+
 	void Awake() {
 		colors [WitchColor.Skin] = SkinOptions [Random.Range (0, SkinOptions.Length)];
 		colors[WitchColor.Hat] = HatOptions [Random.Range (0, HatOptions.Length)];
 		colors[WitchColor.Hair] = HairOptions [Random.Range (0, HairOptions.Length)];
 		colors[WitchColor.Robe] = HatOptions [Random.Range (0, HatOptions.Length)];
+
+		foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>(true))
+		{
+			spriteRenderer.sortingOrder = spriteRenderer.sortingOrder + witchEyebrowIndex;
+			witchEyebrowIndex++;
+		}
 
 	}
 
