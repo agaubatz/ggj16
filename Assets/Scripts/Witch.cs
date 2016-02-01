@@ -67,7 +67,7 @@ public class Witch : MonoBehaviour {
 		colors[WitchColor.Hair] = HairOptions [Random.Range (0, HairOptions.Length)];
 		colors[WitchColor.Robe] = HatOptions [Random.Range (0, HatOptions.Length)];
 
-		foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
+		foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>(true))
 		{
 			spriteRenderer.sortingOrder = spriteRenderer.sortingOrder + witchEyebrowIndex;
 			witchEyebrowIndex++;
