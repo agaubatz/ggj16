@@ -101,11 +101,11 @@ public class Witch : MonoBehaviour {
 
 		if(State == WitchState.Lunging) {
 			if (timeSince >= 0.5f && timeSince <= 1f) { //Speed up lunge
-				walkSpeed = 8f * (float)Easing.CubicEaseIn (timeSince-0.5f, 0, 1, 0.5f);
+				walkSpeed = 5f * (float)Easing.CubicEaseIn (timeSince-0.5f, 0, 1, 0.5f);
 			} else if (timeSince > 1f && updateIn > 1f) {
-				walkSpeed = 8f;
+				walkSpeed = 5f;
 			} else if (updateIn <= 1f && updateIn >= 0.5f) { //Slow down at the end of the lunge
-				walkSpeed = 8f * (float)Easing.CubicEaseOut (updateIn - 0.5f, 1, 0, .5f);
+				walkSpeed = 5f * (float)Easing.CubicEaseOut (updateIn - 0.5f, 1, 0, .5f);
 			} else {
 				walkSpeed = 0f;
 			}	
