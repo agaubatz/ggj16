@@ -11,7 +11,7 @@ public class BirdManager : MonoBehaviour {
 	private List<Bird> birds = new List<Bird>();
 	private Dictionary<GameObject, float> badSpawns = new Dictionary<GameObject, float>();
 	private float lastSummonBad = 20f;
-	private float lastSummonGood = 10f;
+	private float lastSummonGood = 5f;
 
 	private Bounds goodBounds;
 	private Bounds badBounds;
@@ -57,7 +57,7 @@ public class BirdManager : MonoBehaviour {
 
 		lastSummonGood -= Time.deltaTime;
 		if (lastSummonGood <= 0) {
-			lastSummonGood = RandomFromDistribution.RandomNormalDistribution(10f, 2f);
+			lastSummonGood = RandomFromDistribution.RandomNormalDistribution(5f, 1f);
 			SummonGood ();
 		}
 

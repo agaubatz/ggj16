@@ -8,17 +8,16 @@ public enum UmbrellaState {
 
 public class Umbrella : MonoBehaviour {
 	public GameObject subs;
+	public AudioClip OwSound;
 
 	public List<GameObject> hurtObjects;
 	public List<GameObject> nonHurtObjects;
 
 	private float powerUpDuration = 0f;
-	private Vector3 oldScale = Vector3.zero;
 	private UmbrellaState state = UmbrellaState.Normal;
 
 	// Use this for initialization
 	void Start () {
-		oldScale = transform.localScale;
 	}
 	
 	// Update is called once per frame
@@ -55,6 +54,7 @@ public class Umbrella : MonoBehaviour {
 			powerUpDuration = 4f;
 			subs.SetActive(true);
 		} else {
+			AudioSource.PlayClipAtPoint (OwSound, transform.localPosition);
 			powerUpDuration = 2f;
 			state = UmbrellaState.Disabled;
 

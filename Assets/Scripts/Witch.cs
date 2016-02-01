@@ -16,6 +16,7 @@ public class Witch : MonoBehaviour {
 	public AudioClip IncantSound;
 	public AudioClip GaspSound;
 	public AudioClip DeathSound;
+	public AudioClip PointSound;
 	private GameObject myShiny = null;
 	private GameObject myTeleportTo = null;
 	private GameObject myTeleportAway = null;
@@ -178,9 +179,11 @@ public class Witch : MonoBehaviour {
 	float UpdateState() {
 		if (state == WitchState.Spellcasting) { //You successfully cast the spell!
 			ScoreManager.instance.score += 5;
+			AudioSource.PlayClipAtPoint (PointSound, transform.localPosition);
 			wasSuccessful = true;
 		} else if (state == WitchState.Lunging) { //You successfully got the shiny!
 			ScoreManager.instance.score += 10;
+			AudioSource.PlayClipAtPoint (PointSound, transform.localPosition);
 			wasSuccessful = true;
 		}
 

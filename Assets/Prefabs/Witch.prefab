@@ -639,7 +639,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185648}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.757238, y: 3.667696, z: 0}
+  m_LocalPosition: {x: 2.5606644, y: 1.0815321, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 497724}
@@ -879,6 +879,7 @@ MonoBehaviour:
   IncantSound: {fileID: 8300000, guid: aef6fb2883d64441e8c2ccaf92b9d0b4, type: 3}
   GaspSound: {fileID: 8300000, guid: 407a46b5a003c4e29a5c5b6360dc8820, type: 3}
   DeathSound: {fileID: 8300000, guid: 424b50c38e24f4fb5831448858854c1b, type: 3}
+  PointSound: {fileID: 8300000, guid: 575126ab6117e4d009a1d0cf41852dc4, type: 3}
   damageTolerance: 0
   CannotHit: 0
 --- !u!114 &11477412
