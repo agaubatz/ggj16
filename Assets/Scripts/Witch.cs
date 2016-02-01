@@ -97,7 +97,7 @@ public class Witch : MonoBehaviour {
 			walkSpeed = speed * (float)Easing.QuadEaseInOut (timeSince, 0, 1, 0.5f);
 		}
 
-		if(WitchState == Lunging) {
+		if(State == WitchState.Lunging) {
 			if (timeSince >= 0.5f && timeSince <= 1f) { //Speed up lunge
 				walkSpeed = 8f * (float)Easing.CubicEaseIn (timeSince-0.5f, 0, 1, 0.5f);
 			} else if (timeSince > 1f && updateIn > 1f) {
