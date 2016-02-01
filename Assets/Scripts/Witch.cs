@@ -96,14 +96,19 @@ public class Witch : MonoBehaviour {
 		if (timeSince <= 0.5f && State == WitchState.Walking) { //Ease into walking speed
 			walkSpeed = speed * (float)Easing.QuadEaseInOut (timeSince, 0, 1, 0.5f);
 		}
-		if (timeSince >= 0.5f && timeSince <= 1f && State == WitchState.Lunging) { //Speed up lunge
-			walkSpeed = 8f * (float)Easing.CubicEaseIn (timeSince-0.5f, 0, 1, 0.5f);
-		} else if (timeSince > 1f && State == WitchState.Lunging) {
-			walkSpeed = 8f;
+
+		if(State == WitchState.Lunging) {
+			if (timeSince >= 0.5f && timeSince <= 1f) { //Speed up lunge
+				walkSpeed = 8f * (float)Easing.CubicEaseIn (timeSince-0.5f, 0, 1, 0.5f);
+			} else if (timeSince > 1f && updateIn > 1f) {
+				walkSpeed = 8f;
+			} else if (updateIn <= 1f && updateIn >= 0.5f) { //Slow down at the end of the lunge
+				walkSpeed = 8f * (float)Easing.CubicEaseOut (updateIn - 0.5f, 1, 0, .5f);
+			} else {
+				walkSpeed = 0f;
+			}	
 		}
-		if (updateIn <= 0.5f && State == WitchState.Lunging) { //Slow down at the end of the lunge
-			walkSpeed = 8f * (float)Easing.CubicEaseOut (updateIn, 1, 0, 0.5f);
-		}
+		
 
 		if (updateIn <= 1.5f && updateIn + Time.deltaTime > 1.5f && State == WitchState.Spellcasting) { //Start Teleport
 			CannotHit = true;
@@ -125,7 +130,8 @@ public class Witch : MonoBehaviour {
 		transform.localPosition = new Vector3(transform.localPosition.x + walkSpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 
 		if (myShiny != null && State != WitchState.Lunging) {
-			Destroy (myShiny);
+			Destroy (myShiny, 2f);
+			myShiny.GetComponent<Animator>().SetTrigger("Break");
 			myShiny = null;
 		}
 
@@ -174,7 +180,7 @@ public class Witch : MonoBehaviour {
 			speed = 0;
 			animator.SetBool ("DoWitchyAction", true);
 			animator.SetFloat ("WitchyAction", 1);
-			return 2f; //2 Seconds
+			return 2.5f; //2 Seconds
 		} else {
 			//Spellcasting
 			State = WitchState.Spellcasting;
