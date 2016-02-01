@@ -108,7 +108,7 @@ public class Witch : MonoBehaviour {
 				walkSpeed = 0f;
 			}	
 
-			if (updateIn <= .5f)
+			if (updateIn <= 1f)
 			{
 				animator.SetBool ("DoWitchyAction", false);
 				damageTolerance = 1f;
@@ -116,6 +116,12 @@ public class Witch : MonoBehaviour {
 			else
 			{
 				damageTolerance = .3f;
+			}
+
+			if (updateIn <= .5f)
+			{
+				Destroy(myShiny);
+				myShiny = null;
 			}
 		}
 		else
