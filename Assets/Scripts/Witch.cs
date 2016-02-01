@@ -24,6 +24,8 @@ public class Witch : MonoBehaviour {
 	private bool wasDamaged = false;
 	private WitchState state = WitchState.Offscreen;
 
+	public float damageTolerance = 0f;
+
 	public Dictionary<WitchColor, Color> colors = new Dictionary<WitchColor, Color>();
 
 	public WitchState State {
