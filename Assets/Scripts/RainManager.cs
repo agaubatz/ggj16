@@ -34,6 +34,7 @@ public class RainManager : MonoBehaviour {
 			}
 
 			float damage = numCollided / total;
+			damage = 0;
 
 			if (damage > DAMAGETHRESHOLD) {
 				witch.DealDamage (damage * Time.deltaTime);
