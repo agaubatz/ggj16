@@ -78,7 +78,7 @@ public class BirdManager : MonoBehaviour {
 			birds.Add (b);
 		} else {
 			float x = FollowCamera.instance.ScreenRight.x + badBounds.extents.x;
-			float y = Random.Range (-2f, 10f);
+			float y = Random.Range (-1f, 9f);
 			Vector3 summonPosition = new Vector3 (x + 30f * 1.5f, y, BadPrefab.transform.position.z); //Summon 15f*0.5f back for the animation to finish
 			Bird b = ((GameObject)Instantiate (BadPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
 			birds.Add (b);

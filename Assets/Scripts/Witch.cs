@@ -48,11 +48,15 @@ public class Witch : MonoBehaviour {
 
 	private Animator animator;
 
+	private static Color[] SkinOptions = new Color[]{ColorBible.AndroidGreen, ColorBible.DollarBill, ColorBible.GreenRyb, ColorBible.JuneBud, ColorBible.Olivine, ColorBible.Pistachio};
+	private static Color[] HatOptions = new Color[]{ColorBible.AzureWebAzureMist, ColorBible.CanaryYellow, ColorBible.Capri, ColorBible.Daffodil, ColorBible.DeepMagenta, ColorBible.ElectricViolet, ColorBible.HotMagenta, ColorBible.LawnGreen, ColorBible.NeonCarrot, ColorBible.OliveDrab7, ColorBible.Ruby, ColorBible.Russet, ColorBible.VividTangerine, ColorBible.UpMaroon};
+	private static Color[] HairOptions = new Color[]{ColorBible.Wenge, ColorBible.MediumTaupe, ColorBible.Charcoal, ColorBible.Black, ColorBible.SmokyBlack, ColorBible.Bistre, ColorBible.Onyx, ColorBible.Heliotrope, ColorBible.Jade};
+
 	void Awake() {
-		colors[WitchColor.Skin] = Color.green;
-		colors[WitchColor.Hat] = Color.gray;
-		colors[WitchColor.Hair] = Color.yellow;
-		colors[WitchColor.Robe] = Color.blue;
+		colors [WitchColor.Skin] = SkinOptions [Random.Range (0, SkinOptions.Length)];
+		colors[WitchColor.Hat] = HatOptions [Random.Range (0, HatOptions.Length)];
+		colors[WitchColor.Hair] = HairOptions [Random.Range (0, HairOptions.Length)];
+		colors[WitchColor.Robe] = HatOptions [Random.Range (0, HatOptions.Length)];
 
 	}
 
