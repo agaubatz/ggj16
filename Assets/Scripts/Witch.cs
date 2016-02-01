@@ -51,6 +51,8 @@ public class Witch : MonoBehaviour {
 
 	private float health = 2f;
 
+	private bool wasSuccessful = false;
+
 	private Animator animator;
 
 	private static Color[] SkinOptions = new Color[]{ColorBible.AndroidGreen, ColorBible.DollarBill, ColorBible.GreenRyb, ColorBible.JuneBud, ColorBible.Olivine, ColorBible.Pistachio};
@@ -93,10 +95,6 @@ public class Witch : MonoBehaviour {
 			}
 		}
 
-		if(updateIn <= 0.5f && (State == WitchState.Lunging || State == WitchState.Spellcasting)) { //End the animation!
-			animator.SetBool ("DoWitchyAction", false);
-		}
-
 		float walkSpeed = speed;
 		if (timeSince <= 0.5f && State == WitchState.Walking) { //Ease into walking speed
 			walkSpeed = speed * (float)Easing.QuadEaseInOut (timeSince, 0, 1, 0.5f);
@@ -112,8 +110,32 @@ public class Witch : MonoBehaviour {
 			} else {
 				walkSpeed = 0f;
 			}	
+
+			if (updateIn <= 1f)
+			{
+				animator.SetBool ("DoWitchyAction", false);
+				damageTolerance = 1f;
+			}
+			else
+			{
+				damageTolerance = .3f;
+			}
+
+			if (updateIn <= .5f)
+			{
+				Destroy(myShiny);
+				myShiny = null;
+			}
+		}
+		else
+		{
+			damageTolerance = 0f;
 		}
 		
+		if (State == WitchState.Spellcasting && updateIn <= 0.5f)
+		{
+			animator.SetBool ("DoWitchyAction", false);
+		}
 
 		if (updateIn <= 1.5f && updateIn + Time.deltaTime > 1.5f && State == WitchState.Spellcasting) { //Start Teleport
 			CannotHit = true;
@@ -135,8 +157,13 @@ public class Witch : MonoBehaviour {
 		transform.localPosition = new Vector3(transform.localPosition.x + walkSpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 
 		if (myShiny != null && State != WitchState.Lunging) {
-			Destroy (myShiny, 2f);
-			myShiny.GetComponent<Animator>().SetTrigger("Break");
+			if (wasSuccessful) {
+				Destroy(myShiny);
+			}
+			else {
+				Destroy (myShiny, 2f);
+				myShiny.GetComponent<Animator>().SetTrigger("Break");
+			}
 			myShiny = null;
 		}
 
@@ -151,8 +178,10 @@ public class Witch : MonoBehaviour {
 	float UpdateState() {
 		if (state == WitchState.Spellcasting) { //You successfully cast the spell!
 			ScoreManager.instance.score += 5;
+			wasSuccessful = true;
 		} else if (state == WitchState.Lunging) { //You successfully got the shiny!
 			ScoreManager.instance.score += 10;
+			wasSuccessful = true;
 		}
 
 		animator.SetBool ("Walk", false);
@@ -186,6 +215,7 @@ public class Witch : MonoBehaviour {
 			speed = 0;
 			animator.SetBool ("DoWitchyAction", true);
 			animator.SetFloat ("WitchyAction", 1);
+			wasSuccessful = false;
 			return 2.5f; //2 Seconds
 		} else {
 			//Spellcasting
@@ -194,6 +224,7 @@ public class Witch : MonoBehaviour {
 			speed = 0;
 			animator.SetBool ("DoWitchyAction", true);
 			animator.SetFloat ("WitchyAction", 0);
+			wasSuccessful = false;
 			return 3.5f; //3.5 Seconds
 		}
 	}
