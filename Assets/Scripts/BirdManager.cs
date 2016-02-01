@@ -9,7 +9,8 @@ public class BirdManager : MonoBehaviour {
 	public GameObject BadSpawner;
 	private List<Bird> birds = new List<Bird>();
 	private Dictionary<GameObject, float> badSpawns = new Dictionary<GameObject, float>();
-	private float lastSummon = 2f;
+	private float lastSummonBad = 20f;
+	private float lastSummonGood = 10f;
 
 	private Bounds goodBounds;
 	private Bounds badBounds;
@@ -38,10 +39,25 @@ public class BirdManager : MonoBehaviour {
 			return;
 		}
 
-		lastSummon -= Time.deltaTime;
-		if (lastSummon <= 0) {
-			lastSummon = RandomFromDistribution.RandomNormalDistribution(2f, 0.5f);
-			SummonBird();
+		lastSummonBad -= Time.deltaTime;
+		if (lastSummonBad <= 0) {
+			if (Time.time <= 40f) {
+				lastSummonBad = RandomFromDistribution.RandomNormalDistribution(8f, 2f);
+			} else if (Time.time <= 60f) {
+				lastSummonBad = RandomFromDistribution.RandomNormalDistribution(4f, 1f);
+			} else if (Time.time <= 120f) {
+				lastSummonBad = RandomFromDistribution.RandomNormalDistribution(2f, 0.5f);
+			} else {
+				lastSummonBad = RandomFromDistribution.RandomNormalDistribution(1f, 0.25f);
+			}
+
+			SummonBad();
+		}
+
+		lastSummonGood -= Time.deltaTime;
+		if (lastSummonGood <= 0) {
+			lastSummonGood = RandomFromDistribution.RandomNormalDistribution(10f, 2f);
+			SummonGood ();
 		}
 
 		List<Bird> deadBirds = new List<Bird> ();
@@ -69,22 +85,22 @@ public class BirdManager : MonoBehaviour {
 		}
 	}
 
-	void SummonBird() {
-		if (Random.value > 0.9f) {
-			float x = FollowCamera.instance.ScreenRight.x + goodBounds.extents.x;
-			float y = Random.Range (-2f, 10f);
-			Vector3 summonPosition = new Vector3 (x, y, GoodPrefab.transform.position.z);
-			Bird b = ((GameObject)Instantiate (GoodPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
-			birds.Add (b);
-		} else {
-			float x = FollowCamera.instance.ScreenRight.x + badBounds.extents.x;
-			float y = Random.Range (-1f, 9f);
-			Vector3 summonPosition = new Vector3 (x + 30f * 1.5f, y, BadPrefab.transform.position.z); //Summon 15f*0.5f back for the animation to finish
-			Bird b = ((GameObject)Instantiate (BadPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
-			birds.Add (b);
-			b.MakeEvil ();
-			Vector3 badSpawnSummon = new Vector3 (x, y, BadSpawner.transform.position.z);
-			badSpawns.Add ((GameObject)Instantiate (BadSpawner, badSpawnSummon, Quaternion.identity), 1.5f);
-		}
+	void SummonGood() {
+		float x = FollowCamera.instance.ScreenRight.x + goodBounds.extents.x;
+		float y = Random.Range (-2f, 10f);
+		Vector3 summonPosition = new Vector3 (x, y, GoodPrefab.transform.position.z);
+		Bird b = ((GameObject)Instantiate (GoodPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
+		birds.Add (b);
+	}
+
+	void SummonBad() {
+		float x = FollowCamera.instance.ScreenRight.x + badBounds.extents.x;
+		float y = Random.Range (-1f, 9f);
+		Vector3 summonPosition = new Vector3 (x + 30f * 1.5f, y, BadPrefab.transform.position.z); //Summon 15f*0.5f back for the animation to finish
+		Bird b = ((GameObject)Instantiate (BadPrefab, summonPosition, Quaternion.identity)).GetComponent<Bird> ();
+		birds.Add (b);
+		b.MakeEvil ();
+		Vector3 badSpawnSummon = new Vector3 (x, y, BadSpawner.transform.position.z);
+		badSpawns.Add ((GameObject)Instantiate (BadSpawner, badSpawnSummon, Quaternion.identity), 1.5f);
 	}
 }
