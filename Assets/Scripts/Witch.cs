@@ -125,7 +125,8 @@ public class Witch : MonoBehaviour {
 		transform.localPosition = new Vector3(transform.localPosition.x + walkSpeed*Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
 
 		if (myShiny != null && State != WitchState.Lunging) {
-			Destroy (myShiny);
+			Destroy (myShiny, 2f);
+			myShiny.GetComponent<Animator>().SetTrigger("Break");
 			myShiny = null;
 		}
 
