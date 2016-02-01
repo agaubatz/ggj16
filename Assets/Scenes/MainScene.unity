@@ -6031,6 +6031,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 11400280, guid: 6d9310a77792e43d58c61c4b2b26694d, type: 2}
+      propertyPath: OwSound
+      value: 
+      objectReference: {fileID: 8300000, guid: acaa53b33f81e49dda7ade73384edf5f, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d9310a77792e43d58c61c4b2b26694d, type: 2}
   m_IsPrefabParent: 0
