@@ -1092,6 +1092,7 @@ MonoBehaviour:
   GoodPrefab: {fileID: 158126, guid: af1e34a42154746a2beb0e70161a837a, type: 2}
   BadPrefab: {fileID: 180926, guid: acc605ddbaa7c48eb8cdc451a8d61637, type: 2}
   BadSpawner: {fileID: 119276, guid: ff52462e4c86d4f15a3ff57bbc1353ae, type: 2}
+  WooshSound: {fileID: 8300000, guid: 6d8a9ccb5bed94f37a940fdcba797438, type: 3}
 --- !u!4 &495163579
 Transform:
   m_ObjectHideFlags: 0
