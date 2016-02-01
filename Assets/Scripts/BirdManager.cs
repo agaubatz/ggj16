@@ -7,6 +7,7 @@ public class BirdManager : MonoBehaviour {
 	public GameObject GoodPrefab;
 	public GameObject BadPrefab;
 	public GameObject BadSpawner;
+	public AudioClip WooshSound;
 	private List<Bird> birds = new List<Bird>();
 	private Dictionary<GameObject, float> badSpawns = new Dictionary<GameObject, float>();
 	private float lastSummonBad = 20f;
@@ -81,6 +82,7 @@ public class BirdManager : MonoBehaviour {
 
 		foreach (GameObject g in destroyList) {
 			badSpawns.Remove(g);
+			AudioSource.PlayClipAtPoint (WooshSound, g.transform.localPosition);
 			Destroy (g);
 		}
 	}

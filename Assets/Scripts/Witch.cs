@@ -13,6 +13,9 @@ public class Witch : MonoBehaviour {
 	public AudioClip TeleportInSound;
 	public AudioClip TeleportOutSound;
 	public AudioClip ScreamSound;
+	public AudioClip IncantSound;
+	public AudioClip GaspSound;
+	public AudioClip DeathSound;
 	private GameObject myShiny = null;
 	private GameObject myTeleportTo = null;
 	private GameObject myTeleportAway = null;
@@ -178,6 +181,7 @@ public class Witch : MonoBehaviour {
 			if (myShiny != null) {
 				Destroy (myShiny);
 			}
+			AudioSource.PlayClipAtPoint (GaspSound, transform.localPosition);
 			myShiny = (GameObject)Instantiate (ShinyPrefab, shinySummon, Quaternion.identity);
 			speed = 0;
 			animator.SetBool ("DoWitchyAction", true);
@@ -185,6 +189,7 @@ public class Witch : MonoBehaviour {
 			return 2.5f; //2 Seconds
 		} else {
 			//Spellcasting
+			AudioSource.PlayClipAtPoint (IncantSound, transform.localPosition);
 			State = WitchState.Spellcasting;
 			speed = 0;
 			animator.SetBool ("DoWitchyAction", true);
@@ -214,6 +219,7 @@ public class Witch : MonoBehaviour {
 
 		if (health <= 0) {
 			state = WitchState.Melted;
+			AudioSource.PlayClipAtPoint (DeathSound, transform.localPosition);
 			animator.SetBool ("Die", true);
 		} else {
 			if (!wasDamaged) {
